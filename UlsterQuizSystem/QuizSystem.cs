@@ -56,9 +56,8 @@ namespace UlsterQuizSystem
 
             if (admin != null)
             {
-                // DELEGATE control to the Admin class
-                // We pass the master lists so Admin can modify them
-                admin.DisplayDashboard(_quizzes, _categories, _students);
+                // UPDATE: Now passing _admins as the 4th parameter
+                admin.DisplayDashboard(_quizzes, _categories, _students, _admins);
             }
             else
             {

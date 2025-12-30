@@ -17,9 +17,9 @@ namespace UlsterQuizSystem
         }
 
         // ENTRY POINT FOR ADMIN
-        public void DisplayDashboard(List<Quiz> quizzes, List<Category> categories, List<Student> students)
+        public void DisplayDashboard(List<Quiz> quizzes, List<Category> categories, List<Student> students, List<Admin> admins)
         {
-            LoginDate = DateTime.Now; // Update login time on entry
+            LoginDate = DateTime.Now;
             bool active = true;
 
             while (active)
@@ -27,39 +27,129 @@ namespace UlsterQuizSystem
                 Console.Clear();
                 Console.WriteLine($"--- ADMIN DASHBOARD ({Username}) ---");
                 Console.WriteLine($"Last Login: {LoginDate}");
-                Console.WriteLine("1. Manage Questions");
-                Console.WriteLine("2. Manage Users (Students)");
+                Console.WriteLine("1. Manage Quizzes & Questions");
+                Console.WriteLine("2. Manage Users (Students & Admins)");
                 Console.WriteLine("3. Manage Categories");
-                Console.WriteLine("4. Save Quizzes to CSV");
-                Console.WriteLine("5. Logout");
+                Console.WriteLine("4. View All System Data (Reports)");
+                Console.WriteLine("5. Save Quizzes to CSV");
+                Console.WriteLine("6. Logout");
                 Console.Write("Select: ");
 
-                switch (Console.ReadLine())
+                string choice = Console.ReadLine();
+                switch (choice)
                 {
                     case "1": ManageQuestions(quizzes); break;
                     case "2": ManageUsers(students); break;
                     case "3": ManageCategories(categories, quizzes); break;
-                    case "4": SaveToCSV(quizzes); break;
-                    case "5": Logout(); active = false; break;
+                    case "4": ViewSystemDataMenu(quizzes, categories, students, admins); break;
+                    case "5": SaveToCSV(quizzes); break;
+                    case "6": Logout(); active = false; break;
+                    default: Console.WriteLine("Invalid selection."); break;
                 }
             }
         }
 
-        // --- MODULE: QUESTION MANAGEMENT ---
+        // --- UPDATED: VIEW DATA MENU ---
+        private void ViewSystemDataMenu(List<Quiz> quizzes, List<Category> categories, List<Student> students, List<Admin> admins)
+        {
+            Console.Clear();
+            Console.WriteLine("--- System Reports ---");
+            Console.WriteLine("1. View All Users (Admins & Students)");
+            Console.WriteLine("2. View All Quizzes (Summary)");
+            Console.WriteLine("3. View All Categories");
+            Console.WriteLine("4. View All Questions (Detailed)"); // NEW OPTION
+            Console.Write("Select: ");
+
+            switch (Console.ReadLine())
+            {
+                case "1": ViewAllUsers(students, admins); break;
+                case "2": ViewAllQuizzes(quizzes); break;
+                case "3": ViewAllCategories(categories); break;
+                case "4": ViewAllQuestions(quizzes); break; // Call the new method
+                default: Console.WriteLine("Invalid."); break;
+            }
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+        }
+
+        // --- NEW METHOD: View All Questions ---
+        private void ViewAllQuestions(List<Quiz> quizzes)
+        {
+            Console.WriteLine("\n--- Master Question List ---");
+            if (quizzes.Count == 0)
+            {
+                Console.WriteLine("No quizzes found.");
+                return;
+            }
+
+            foreach (var q in quizzes)
+            {
+                Console.WriteLine($"\n[Quiz ID {q.QuizID}: {q.QuizTitle}]");
+                if (q.QuizQuestions.Count == 0)
+                {
+                    Console.WriteLine("   (No questions in this quiz)");
+                    continue;
+                }
+
+                foreach (var quest in q.QuizQuestions)
+                {
+                    Console.WriteLine($"   Q{quest.QuestionID}: {quest.QuestionText}");
+                    Console.WriteLine($"      Correct Answer: {quest.QuestionCorrectAnswer}");
+                    Console.WriteLine($"      Options: {string.Join(", ", quest.QuestionOptions)}");
+                }
+            }
+        }
+
+        // --- EXISTING VIEW METHODS ---
+        private void ViewAllUsers(List<Student> students, List<Admin> admins)
+        {
+            Console.WriteLine("\n--- All System Users ---");
+            Console.WriteLine("[ADMINS]");
+            foreach (var a in admins)
+                Console.WriteLine($"ID: {a.ID} | User: {a.Username} | Email: {a.Email}");
+
+            Console.WriteLine("\n[STUDENTS]");
+            foreach (var s in students)
+                Console.WriteLine($"ID: {s.ID} | User: {s.Username} | Status: {s.Status} | Email: {s.Email}");
+        }
+
+        private void ViewAllQuizzes(List<Quiz> quizzes)
+        {
+            Console.WriteLine("\n--- All Quizzes ---");
+            if (quizzes.Count == 0) Console.WriteLine("No quizzes available.");
+
+            foreach (var q in quizzes)
+            {
+                string catName = q.QuizCategory != null ? q.QuizCategory.CategoryName : "Unassigned";
+                Console.WriteLine($"ID: {q.QuizID} | Title: {q.QuizTitle} | Category: {catName} | Questions: {q.QuizQuestions.Count}");
+            }
+        }
+
+        private void ViewAllCategories(List<Category> categories)
+        {
+            Console.WriteLine("\n--- All Categories ---");
+            if (categories.Count == 0) Console.WriteLine("No categories defined.");
+
+            foreach (var c in categories)
+            {
+                Console.WriteLine($"ID: {c.CategoryID} | Name: {c.CategoryName} | Desc: {c.CategoryDescription}");
+            }
+        }
+
+        // --- MANAGEMENT MODULES (Unchanged Logic) ---
+
         private void ManageQuestions(List<Quiz> quizzes)
         {
             Console.Clear();
-            Console.WriteLine("--- Manage Questions ---");
-            Console.WriteLine("1. Add Question");
-            Console.WriteLine("2. Remove Question");
+            Console.WriteLine("--- Manage Quizzes/Questions ---");
+            ViewAllQuizzes(quizzes);
+
+            Console.WriteLine("\n1. Add Question to Quiz");
+            Console.WriteLine("2. Remove Question from Quiz");
             Console.Write("Select: ");
             string choice = Console.ReadLine();
 
-            // Select Quiz first
-            Console.WriteLine("\nSelect Quiz:");
-            foreach (var q in quizzes) Console.WriteLine($"{q.QuizID}. {q.QuizTitle}");
-            Console.Write("Quiz ID: ");
-
+            Console.Write("Enter Quiz ID: ");
             if (int.TryParse(Console.ReadLine(), out int qid))
             {
                 var quiz = quizzes.Find(q => q.QuizID == qid);
@@ -75,31 +165,23 @@ namespace UlsterQuizSystem
 
         private void AddQuestionToQuiz(Quiz quiz)
         {
-            Console.Write("Enter Question Text: ");
+            Console.Write("Question Text: ");
             string text = Console.ReadLine();
-            Console.Write("Enter Correct Answer: ");
+            Console.Write("Correct Answer: ");
             string correct = Console.ReadLine();
 
             List<string> options = new List<string>();
             Console.WriteLine("Enter 4 Options:");
-            for (int i = 1; i <= 4; i++)
-            {
-                Console.Write($"Option {i}: ");
-                options.Add(Console.ReadLine());
-            }
+            for (int i = 1; i <= 4; i++) { Console.Write($"{i}: "); options.Add(Console.ReadLine()); }
 
-            // Auto-generate ID based on existing count
             int newId = quiz.QuizQuestions.Any() ? quiz.QuizQuestions.Max(q => q.QuestionID) + 1 : 1;
-
             quiz.QuizQuestions.Add(new Question(newId, text, options, correct, "Medium"));
-            Console.WriteLine("Question added successfully.");
+            Console.WriteLine("Question added.");
         }
 
         private void RemoveQuestionFromQuiz(Quiz quiz)
         {
-            foreach (var q in quiz.QuizQuestions)
-                Console.WriteLine($"ID {q.QuestionID}: {q.QuestionText}");
-
+            foreach (var q in quiz.QuizQuestions) Console.WriteLine($"ID: {q.QuestionID} - {q.QuestionText}");
             Console.Write("Enter ID to remove: ");
             if (int.TryParse(Console.ReadLine(), out int id))
             {
@@ -108,13 +190,13 @@ namespace UlsterQuizSystem
             }
         }
 
-        // --- MODULE: USER MANAGEMENT ---
         private void ManageUsers(List<Student> students)
         {
             Console.Clear();
             Console.WriteLine("--- Manage Students ---");
             Console.WriteLine("1. Add Student");
-            Console.WriteLine("2. Update Student Status (Active/Inactive)");
+            Console.WriteLine("2. Update Student Status");
+            Console.WriteLine("3. List All Students");
             Console.Write("Select: ");
             string choice = Console.ReadLine();
 
@@ -128,28 +210,33 @@ namespace UlsterQuizSystem
             }
             else if (choice == "2")
             {
-                foreach (var s in students) Console.WriteLine(s.ToString());
                 Console.Write("Enter Student ID: ");
                 if (int.TryParse(Console.ReadLine(), out int sid))
                 {
-                    var student = students.Find(s => s.ID == sid);
-                    if (student != null)
+                    var s = students.Find(x => x.ID == sid);
+                    if (s != null)
                     {
-                        Console.Write($"Current Status: {student.Status}. Enter new status (active/inactive): ");
-                        student.Status = Console.ReadLine().ToLower();
-                        Console.WriteLine("Status Updated.");
+                        Console.Write($"Current: {s.Status}. New (active/inactive): ");
+                        s.Status = Console.ReadLine().ToLower();
+                        Console.WriteLine("Updated.");
                     }
+                    else Console.WriteLine("Student not found.");
                 }
+            }
+            else if (choice == "3")
+            {
+                ViewAllUsers(students, new List<Admin>());
             }
             Console.ReadKey();
         }
 
-        // --- MODULE: CATEGORY MANAGEMENT ---
         private void ManageCategories(List<Category> categories, List<Quiz> quizzes)
         {
             Console.Clear();
             Console.WriteLine("--- Manage Categories ---");
-            Console.WriteLine("1. Add Category");
+            ViewAllCategories(categories);
+
+            Console.WriteLine("\n1. Add Category");
             Console.WriteLine("2. Remove Category");
             string choice = Console.ReadLine();
 
@@ -163,23 +250,21 @@ namespace UlsterQuizSystem
             }
             else if (choice == "2")
             {
-                foreach (var c in categories) Console.WriteLine(c.ToString());
-                Console.Write("Enter ID to remove: ");
+                Console.Write("ID to remove: ");
                 if (int.TryParse(Console.ReadLine(), out int cid))
                 {
                     if (quizzes.Any(q => q.QuizCategory.CategoryID == cid))
-                        Console.WriteLine("Cannot delete: Category is in use.");
+                        Console.WriteLine("Cannot delete: Category in use.");
                     else
                     {
                         categories.RemoveAll(c => c.CategoryID == cid);
-                        Console.WriteLine("Category Deleted.");
+                        Console.WriteLine("Deleted.");
                     }
                 }
             }
             Console.ReadKey();
         }
 
-        // --- MODULE: EXPORT ---
         private void SaveToCSV(List<Quiz> quizzes)
         {
             try
@@ -188,19 +273,12 @@ namespace UlsterQuizSystem
                 {
                     sw.WriteLine("QuizID,QuizTitle,QuestionID,QuestionText,Answer");
                     foreach (var q in quizzes)
-                    {
                         foreach (var quest in q.QuizQuestions)
-                        {
                             sw.WriteLine($"{q.QuizID},{q.QuizTitle},{quest.QuestionID},{quest.QuestionText},{quest.QuestionCorrectAnswer}");
-                        }
-                    }
                 }
-                Console.WriteLine("Data saved to questions.csv successfully.");
+                Console.WriteLine("Saved to questions.csv");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving file: {ex.Message}");
-            }
+            catch (Exception ex) { Console.WriteLine($"Error: {ex.Message}"); }
             Console.ReadKey();
         }
     }
