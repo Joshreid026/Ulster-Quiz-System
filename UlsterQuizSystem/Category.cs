@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace UlsterQuizSystem
 {
-    internal class Category
+    public class Category
     {
+        public int CategoryID { get; private set; }
+        public string CategoryName { get; set; }
+        public string CategoryDescription { get; set; }
+
+        public Category(int id, string name, string desc)
+        {
+            CategoryID = id;
+            CategoryName = name;
+            CategoryDescription = desc;
+        }
     }
 }
