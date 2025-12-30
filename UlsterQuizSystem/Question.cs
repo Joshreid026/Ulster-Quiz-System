@@ -11,16 +11,16 @@ namespace UlsterQuizSystem
         public int QuestionID { get; private set; }
         public string QuestionText { get; set; }
         public List<string> QuestionOptions { get; set; }
-        public string CorrectAnswer { get; set; }
-        public string DifficultyLevel { get; set; }
+        public string QuestionCorrectAnswer { get; set; }
+        public string QuestionDifficultyLevel { get; set; }
 
-        public Question(int id, string text, List<string> opts, string ans, string diff)
+        public Question(int id, string text, List<string> options, string ans, string diff)
         {
             QuestionID = id;
             QuestionText = text;
-            QuestionOptions = opts;
-            CorrectAnswer = ans;
-            DifficultyLevel = diff;
+            QuestionOptions = options;
+            QuestionCorrectAnswer = ans;
+            QuestionDifficultyLevel = diff;
         }
     }
 }

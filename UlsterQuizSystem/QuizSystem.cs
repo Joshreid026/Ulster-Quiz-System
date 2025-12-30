@@ -8,74 +8,57 @@ namespace UlsterQuizSystem
 {
     public class QuizSystem
     {
-        // Master Lists
-        private List<Admin> adminUsers;
-        private List<Student> studentUsers;
-        private List<Quiz> quizzes;
-        private List<Category> categories;
+        // Central Data Store
+        private List<Admin> _admins;
+        private List<Student> _students;
+        private List<Quiz> _quizzes;
+        private List<Category> _categories;
 
         public QuizSystem()
         {
-            // Initialize lists using the static methods we created in Admin/Student
-            adminUsers = Admin.CreateSampleAdmins();
-            studentUsers = Student.CreateSampleCustomers();
-            categories = new List<Category>();
-            quizzes = new List<Quiz>();
+            _admins = new List<Admin>();
+            _students = new List<Student>();
+            _quizzes = new List<Quiz>();
+            _categories = new List<Category>();
         }
 
         public void Run()
         {
-            LoadQuizData(); // Load categories and quizzes
+            LoadSampleData(); // Setup initial data
 
-            while (true)
+            bool running = true;
+            while (running)
             {
                 Console.Clear();
-                Console.WriteLine("=== Quiz System Main Menu ===");
+                Console.WriteLine("=== ULSTER UNIVERSITY QUIZ SYSTEM ===");
                 Console.WriteLine("1. Admin Login");
                 Console.WriteLine("2. Student Login");
                 Console.WriteLine("3. Exit");
-                Console.Write("Selection: ");
-                string choice = Console.ReadLine();
+                Console.Write("Select: ");
 
-                try
+                switch (Console.ReadLine())
                 {
-                    switch (choice)
-                    {
-                        case "1":
-                            PerformAdminLogin();
-                            break;
-                        case "2":
-                            PerformStudentLogin();
-                            break;
-                        case "3":
-                            return;
-                        default:
-                            Console.WriteLine("Invalid Selection.");
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"System Error: {ex.Message}");
-                    Console.ReadKey();
+                    case "1": PerformAdminLogin(); break;
+                    case "2": PerformStudentLogin(); break;
+                    case "3": running = false; break;
                 }
             }
         }
 
         private void PerformAdminLogin()
         {
-            Console.Write("Username: ");
-            string u = Console.ReadLine();
-            Console.Write("Password: ");
-            string p = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("--- Admin Login ---");
+            Console.Write("Username: "); string u = Console.ReadLine();
+            Console.Write("Password: "); string p = Console.ReadLine();
 
-            // Find Admin
-            Admin admin = adminUsers.Find(a => a.Username == u && a.Password == p);
+            Admin admin = _admins.Find(a => a.Username == u && a.Password == p);
 
             if (admin != null)
             {
-                // Pass control to the Admin Menu (handled here to route between methods)
-                ShowAdminDashboard(admin);
+                // DELEGATE control to the Admin class
+                // We pass the master lists so Admin can modify them
+                admin.DisplayDashboard(_quizzes, _categories, _students);
             }
             else
             {
@@ -84,103 +67,57 @@ namespace UlsterQuizSystem
             }
         }
 
-        private void ShowAdminDashboard(Admin admin)
-        {
-            bool loggedIn = true;
-            while (loggedIn)
-            {
-                Console.Clear();
-                Console.WriteLine($"--- Admin Panel: {admin.Username} ---");
-                Console.WriteLine("1. Add Question (AddProduct)");
-                Console.WriteLine("2. Update Question (UpdateProduct)");
-                Console.WriteLine("3. Manage Students (ManageUsers)");
-                Console.WriteLine("4. Save to CSV");
-                Console.WriteLine("5. Logout");
-                Console.Write("Select: ");
-
-                string choice = Console.ReadLine();
-
-                // Here we call the methods WE MOVED into the Admin class.
-                // We pass the "quizzes" or "studentUsers" lists so the Admin can edit them.
-                switch (choice)
-                {
-                    case "1":
-                        admin.AddProduct(quizzes);
-                        break;
-                    case "2":
-                        admin.UpdateProduct(quizzes);
-                        break;
-                    case "3":
-                        admin.ManageUsers(studentUsers);
-                        break;
-                    case "4":
-                        SaveQuizToCSV();
-                        break;
-                    case "5":
-                        admin.Logout();
-                        loggedIn = false;
-                        break;
-                }
-                if (loggedIn) Console.ReadKey(); // Pause to let user read output
-            }
-        }
-
         private void PerformStudentLogin()
         {
-            // Direct login for simplicity or ask for credentials
-            Console.WriteLine("\n--- Student Login ---");
-            Console.Write("Username: ");
-            string u = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("--- Student Login ---");
+            Console.Write("Username: "); string u = Console.ReadLine();
 
-            Student student = studentUsers.Find(s => s.Username == u);
+            Student student = _students.Find(s => s.Username == u);
+
             if (student != null)
             {
-                // Call the method WE MOVED into the Student class
-                student.DisplayCustomerMenu(quizzes, categories);
+                if (student.Status.ToLower() == "active")
+                {
+                    // DELEGATE control to the Student class
+                    student.DisplayStudentMenu(_quizzes, _categories);
+                }
+                else
+                {
+                    Console.WriteLine("Account Suspended/Inactive.");
+                    Console.ReadKey();
+                }
             }
             else
             {
-                Console.WriteLine("Student not found.");
+                Console.WriteLine("User not found.");
                 Console.ReadKey();
             }
         }
 
-        private void LoadQuizData()
+        private void LoadSampleData()
         {
-            // Load Categories
-            categories.Add(new Category(1, "Programming", "OOP Concepts"));
-            categories.Add(new Category(2, "Data Structures", "Lists & Arrays"));
+            // Categories
+            var cat1 = new Category(1, "Programming", "OOP and C#");
+            var cat2 = new Category(2, "History", "World Events");
+            _categories.Add(cat1);
+            _categories.Add(cat2);
 
-            // Load Quizzes
-            var oopQuestions = new List<Question> {
-                new Question(1, "What is OOP?", new List<string>{"Object Oriented Programming", "Other"}, "Object Oriented Programming", "Easy"),
-                new Question(2, "C# inherits using?", new List<string>{":", "extends"}, ":", "Medium")
+            // Users
+            _admins.Add(new Admin(1, "admin", "admin123", "admin@ulster.ac.uk"));
+            _students.Add(new Student(101, "student", "student123", "student@ulster.ac.uk", "active"));
+
+            // Questions
+            var qs = new List<Question>
+            {
+                new Question(1, "What is OOP?", new List<string>{"Object Oriented Programming","Food"}, "Object Oriented Programming", "Easy"),
+                new Question(2, "Access modifier for private?", new List<string>{"public","private"}, "private", "Easy")
             };
 
-            Quiz q1 = new Quiz(1, "OOP Fundamentals", "Basic OOP", categories[0], DateTime.Now);
-            q1.QuizQuestions = oopQuestions;
-            quizzes.Add(q1);
-        }
-
-        public void SaveQuizToCSV()
-        {
-            // Basic CSV save implementation
-            try
-            {
-                using (StreamWriter sw = new StreamWriter("questions.csv"))
-                {
-                    sw.WriteLine("QuizID,QuestionID,Text,CorrectAnswer");
-                    foreach (var q in quizzes)
-                    {
-                        foreach (var quest in q.QuizQuestions)
-                        {
-                            sw.WriteLine($"{q.QuizID},{quest.QuestionID},{quest.QuestionText},{quest.CorrectAnswer}");
-                        }
-                    }
-                }
-                Console.WriteLine("Saved to questions.csv");
-            }
-            catch (Exception ex) { Console.WriteLine("Error saving file: " + ex.Message); }
+            // Quizzes
+            var quiz1 = new Quiz(1, "OOP Basics", "Intro Test", cat1, DateTime.Now);
+            quiz1.QuizQuestions = qs;
+            _quizzes.Add(quiz1);
         }
     }
 }
