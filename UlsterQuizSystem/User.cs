@@ -6,48 +6,14 @@ using System.Threading.Tasks;
 
 namespace UlsterQuizSystem
 {
-    public class User
+    public abstract class User
     {
-        // Encapsulated Fields
-        private int _id;
-        private string _username;
-        private string _password;
-        private string _email;
-        private string _role;
-
-        // Properties
-        public int ID
-        {
-            get { return _id; }
-            private set { _id = value; } // ID should not change after creation
-        }
-
-        public string Username
-        {
-            get { return _username; }
-            set { _username = value; }
-        }
-
-        public string Password
-        {
-            get { return _password; }
-            set { _password = value; }
-        }
-
-        public string Email
-        {
-            get { return _email; }
-            set { _email = value; }
-        }
-
-        public string Role
-        {
-            get { return _role; }
-            protected set { _role = value; }
-        }
-
-        // Constructors
-        public User() { }
+        // Encapsulation: Protected setters for ID/Role ensure they aren't changed externally
+        public int ID { get; protected set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Role { get; protected set; }
 
         public User(int id, string username, string password, string email, string role)
         {
@@ -58,17 +24,15 @@ namespace UlsterQuizSystem
             Role = role;
         }
 
-        // Shared Methods
-        public void UpdateProfile(string newEmail, string newPassword)
+        // Shared behavior
+        public virtual void Logout()
         {
-            Email = newEmail;
-            Password = newPassword;
-            Console.WriteLine("Profile updated successfully.");
+            Console.WriteLine($"\nUser {Username} logged out.");
         }
 
-        public void Logout()
+        public override string ToString()
         {
-            Console.WriteLine($"\nUser {Username} has logged out.");
+            return $"ID: {ID} | User: {Username} | Role: {Role}";
         }
     }
 }

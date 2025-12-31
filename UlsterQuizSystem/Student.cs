@@ -16,96 +16,99 @@ namespace UlsterQuizSystem
             Status = status;
         }
 
-        // Static factory method
-        public static List<Student> CreateSampleCustomers()
-        {
-            return new List<Student>
-            {
-                new Student(101, "student", "student123", "student@ulster.ac.uk", "active"),
-                new Student(102, "jane", "jane123", "jane@ulster.ac.uk", "active")
-            };
-        }
-
-        // The main menu logic for the student
-        public void DisplayCustomerMenu(List<Quiz> quizzes, List<Category> categories)
+        // ENTRY POINT FOR STUDENT
+        public void DisplayStudentMenu(List<Quiz> quizzes, List<Category> categories)
         {
             bool active = true;
             while (active)
             {
                 Console.Clear();
-                Console.WriteLine($"--- Student Dashboard: {Username} ---");
-                Console.WriteLine("1. Play Quiz");
+                Console.WriteLine($"--- STUDENT MENU ({Username}) ---");
+                Console.WriteLine("1. Play Quiz (Filter by Category)");
                 Console.WriteLine("2. Logout");
                 Console.Write("Select: ");
-                string choice = Console.ReadLine();
 
-                if (choice == "1")
-                {
-                    SelectAndPlayQuiz(quizzes, categories);
-                }
-                else if (choice == "2")
-                {
-                    Logout();
-                    active = false;
-                }
+                string choice = Console.ReadLine();
+                if (choice == "1") FilterAndPlay(quizzes, categories);
+                else if (choice == "2") { Logout(); active = false; }
             }
         }
 
-        // Private helper method just for the Student class
-        private void SelectAndPlayQuiz(List<Quiz> quizzes, List<Category> categories)
+        private void FilterAndPlay(List<Quiz> quizzes, List<Category> categories)
         {
-            Console.WriteLine("\nAvailable Categories:");
-            foreach (var c in categories) Console.WriteLine($"{c.CategoryID}. {c.CategoryName}");
+            Console.Clear();
+            Console.WriteLine("--- Select Category ---");
+            foreach (var c in categories) Console.WriteLine(c.ToString());
 
             Console.Write("Enter Category ID: ");
-            if (int.TryParse(Console.ReadLine(), out int cId))
+            if (int.TryParse(Console.ReadLine(), out int catId))
             {
-                var filtered = quizzes.Where(q => q.QuizCategory.CategoryID == cId).ToList();
-                if (filtered.Count == 0)
+                var filteredQuizzes = quizzes.Where(q => q.QuizCategory.CategoryID == catId).ToList();
+
+                if (!filteredQuizzes.Any())
                 {
-                    Console.WriteLine("No quizzes in this category.");
+                    Console.WriteLine("No quizzes available in this category.");
                     Console.ReadKey();
                     return;
                 }
 
-                Console.WriteLine("Select Quiz:");
-                foreach (var q in filtered) Console.WriteLine($"{q.QuizID}. {q.QuizTitle}");
+                Console.WriteLine("\n--- Available Quizzes ---");
+                foreach (var q in filteredQuizzes) Console.WriteLine($"{q.QuizID}. {q.QuizTitle}");
 
+                Console.Write("Enter Quiz ID to play: ");
                 if (int.TryParse(Console.ReadLine(), out int qId))
                 {
-                    var quiz = filtered.Find(q => q.QuizID == qId);
-                    if (quiz != null) Play(quiz);
+                    var selectedQuiz = filteredQuizzes.Find(q => q.QuizID == qId);
+                    if (selectedQuiz != null) PlayGameLoop(selectedQuiz);
+                    else Console.WriteLine("Invalid Quiz ID.");
                 }
             }
-            else
-            {
-                Console.WriteLine("Invalid Input.");
-                Console.ReadKey();
-            }
+            else Console.WriteLine("Invalid Input.");
+
+            Console.ReadKey();
         }
 
-        private void Play(Quiz quiz)
+        private void PlayGameLoop(Quiz quiz)
         {
+            if (quiz.QuizQuestions.Count == 0)
+            {
+                Console.WriteLine("This quiz has no questions yet!");
+                return;
+            }
+
             int score = 0;
-            Console.WriteLine($"\nStarting {quiz.QuizTitle}...");
+            Console.WriteLine($"\nStarting Quiz: {quiz.QuizTitle}");
 
             foreach (var q in quiz.QuizQuestions)
             {
-                Console.WriteLine($"\n{q.QuestionText}");
+                Console.WriteLine("------------------------------------------------");
+                Console.WriteLine($"Q: {q.QuestionText}");
                 for (int i = 0; i < q.QuestionOptions.Count; i++)
-                    Console.WriteLine($"{i + 1}. {q.QuestionOptions[i]}");
-
-                Console.Write("Answer (type option text): ");
-                string ans = Console.ReadLine();
-                if (ans.Trim().Equals(q.CorrectAnswer.Trim(), StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine("Correct!");
+                    Console.WriteLine($"{i + 1}. {q.QuestionOptions[i]}");
+                }
+
+                Console.Write("Type the answer text exactly: ");
+                string answer = Console.ReadLine();
+
+                if (string.Equals(answer.Trim(), q.QuestionCorrectAnswer.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine("CORRECT!");
                     score++;
                 }
-                else Console.WriteLine($"Wrong. Correct: {q.CorrectAnswer}");
+                else
+                {
+                    Console.WriteLine($"WRONG! The correct answer was: {q.QuestionCorrectAnswer}");
+                }
             }
-            Console.WriteLine($"\nQuiz Over. Score: {score}/{quiz.QuizQuestions.Count}");
-            Console.ReadKey();
+
+            Console.WriteLine($"\n*** QUIZ FINISHED ***");
+            Console.WriteLine($"You scored {score} out of {quiz.QuizQuestions.Count}");
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $" | Status: {Status}";
         }
     }
 }
