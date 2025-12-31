@@ -128,7 +128,7 @@ namespace UlsterQuizSystem
                 new Question(5, "What is the purpose of a constructor in a class?", new List<string>{"To destroy objects", "To initialize objects", "To inherit methods", "To override properties"}, "To initialize objects", "Easy"),
                 new Question(6, "Which concept allows multiple methods with the same name but different parameters?", new List<string>{"Inheritance", "Polymorphism", "Overloading", "Encapsulation"}, "Overloading", "Medium"),
                 new Question(7, "What is the base class for all classes in C#?", new List<string>{"System.Object", "BaseClass", "RootClass", "MainClass"}, "System.Object", "Hard"),
-                new Question(8, "What is the difference between a class and an object?", new List<string>{"Class is an instance, object is a blueprint", "Class is a blueprint, object is an instance", "They are the same", "Object inherits class"}, "Class is a blueprint, object is an instance", "Medium"),
+                new Question(8, "What is the difference between a class and an object?", new List<string>{"Class is an instance and object is a blueprint", "Class is a blueprint and object is an instance", "They are the same", "Object inherits class"}, "Class is a blueprint and object is an instance", "Medium"),
                 new Question(9, "Which access modifier makes a member accessible only within its own class?", new List<string>{"public", "private", "protected", "internal"}, "private", "Easy"),
                 new Question(10, "What is polymorphism in OOP?", new List<string>{"Ability to hide data", "Ability to inherit methods", "Ability to take many forms", "Ability to override constructors"}, "Ability to take many forms", "Medium")
             };
