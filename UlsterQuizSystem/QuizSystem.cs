@@ -97,10 +97,20 @@ namespace UlsterQuizSystem
         private void LoadSampleData()
         {
             // Categories
-            var cat1 = new Category(1, "Programming", "OOP and C#");
-            var cat2 = new Category(2, "History", "World Events");
+            var cat1 = new Category(1, "Programming", "Concepts of object-oriented programming and coding principles");
+            var cat2 = new Category(2, "Data Structures", "Arrays, lists, stacks, queues, trees, and their applications");
+            var cat3 = new Category(3, "Software Design", "Design patterns, architecture principles, and system modelling");
+            var cat4 = new Category(4, "Web Development", "HTML, CSS, JavaScript, and client-server interactions");
+            var cat5 = new Category(5, "Database Systems", "SQL queries, relational models, normalization, and transactions");
+            var cat6 = new Category(6, "Cybersecurity Basics", "Encryption, authentication, and common security threats");
+            var cat7 = new Category(7, "Computer Networks", "Protocols, IP addressing, routing, and network layers");
             _categories.Add(cat1);
             _categories.Add(cat2);
+            _categories.Add(cat3);
+            _categories.Add(cat4);
+            _categories.Add(cat5);
+            _categories.Add(cat6);
+            _categories.Add(cat7);
 
             // Users
             _admins.Add(new Admin(1, "admin", "admin123", "admin@ulster.ac.uk"));
