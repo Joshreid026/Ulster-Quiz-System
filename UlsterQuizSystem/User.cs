@@ -8,7 +8,9 @@ namespace UlsterQuizSystem
 {
     public abstract class User
     {
-        // Encapsulation: Protected setters for ID/Role ensure they aren't changed externally
+        // ===================================================================
+        // Protected setters for ID/Role ensure they aren't changed externally
+        // ===================================================================
         public int ID { get; protected set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -24,7 +26,9 @@ namespace UlsterQuizSystem
             Role = role;
         }
 
-        // Shared behavior
+        // ==========================================
+        // Shared Behaviour for subclasses
+        // ==========================================
         public virtual void Logout()
         {
             Console.WriteLine($"\nUser {Username} logged out.");

@@ -10,7 +10,10 @@ namespace UlsterQuizSystem
 {
     public class QuizSystem
     {
+        // ==========================================
         // Central Data Store
+        // ==========================================
+
         private List<Admin> _admins;
         private List<Student> _students;
         private List<Quiz> _quizzes;
@@ -24,9 +27,13 @@ namespace UlsterQuizSystem
             _categories = new List<Category>();
         }
 
+        // ==========================================
+        // Setup initial data and main loop
+        // ==========================================
+
         public void Run()
         {
-            LoadSampleData(); // Setup initial data
+            LoadSampleData();
 
             bool running = true;
             while (running)
@@ -58,7 +65,6 @@ namespace UlsterQuizSystem
 
             if (admin != null)
             {
-                // UPDATE: Now passing _admins as the 4th parameter
                 admin.DisplayDashboard(_quizzes, _categories, _students, _admins);
             }
             else
@@ -80,7 +86,6 @@ namespace UlsterQuizSystem
             {
                 if (student.Status.ToLower() == "active")
                 {
-                    // DELEGATE control to the Student class
                     student.DisplayStudentMenu(_quizzes, _categories);
                 }
                 else
@@ -98,7 +103,9 @@ namespace UlsterQuizSystem
 
         private void LoadSampleData()
         {
-            // Categories
+            // ==========================================
+            // Default categories
+            // ==========================================
             var cat1 = new Category(1, "Programming", "Concepts of object-oriented programming and coding principles");
             var cat2 = new Category(2, "Data Structures", "Arrays, lists, stacks, queues, trees, and their applications");
             var cat3 = new Category(3, "Software Design", "Design patterns, architecture principles, and system modelling");
@@ -114,11 +121,17 @@ namespace UlsterQuizSystem
             _categories.Add(cat6);
             _categories.Add(cat7);
 
-            // Users
+            // ==========================================
+            // Default users
+            // ==========================================
+
             _admins.Add(new Admin(1, "admin", "admin123", "admin@ulster.ac.uk"));
             _students.Add(new Student(101, "student", "student123", "student@ulster.ac.uk", "active"));
 
-            // Questions
+            // ==========================================
+            // Default questions
+            // ==========================================
+
             var qs = new List<Question>
             {
                 new Question(1, "What does OOP stand for? ", new List<string>{"Object-Oriented Programming", "Operational Output Processing", "Open Order Protocol", "Overloaded Operator Procedure"}, "Object-Oriented Programming", "Easy"),
@@ -133,7 +146,10 @@ namespace UlsterQuizSystem
                 new Question(10, "What is polymorphism in OOP?", new List<string>{"Ability to hide data", "Ability to inherit methods", "Ability to take many forms", "Ability to override constructors"}, "Ability to take many forms", "Medium")
             };
 
-            // Quizzes
+            // ==========================================
+            // Default quizzes
+            // ==========================================
+
             var quiz1 = new Quiz(1, "OOP Fundamentals", "Covers basics of object-oriented programming.", cat1, new DateTime(2025,09,01));
             quiz1.QuizQuestions = qs;
 

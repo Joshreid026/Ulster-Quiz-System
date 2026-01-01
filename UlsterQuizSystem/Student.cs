@@ -16,7 +16,9 @@ namespace UlsterQuizSystem
             Status = status;
         }
 
-        // ENTRY POINT FOR STUDENT
+        // ==========================================
+        // Entry point for student menu
+        // ==========================================
         public void DisplayStudentMenu(List<Quiz> quizzes, List<Category> categories)
         {
             bool active = true;
