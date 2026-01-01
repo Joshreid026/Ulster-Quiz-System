@@ -28,7 +28,7 @@ namespace UlsterQuizSystem
             while (active)
             {
                 Console.Clear();
-                Console.WriteLine($"--- ADMIN DASHBOARD ({Username}) ---");
+                Console.WriteLine($"--- ADMIN DASHBOARD ( logged in as: {Username} ) ---");
                 Console.WriteLine($"Last Login: {LoginDate}");
                 Console.WriteLine("1. Manage Quizzes & Questions");
                 Console.WriteLine("2. Manage Users (Students)");

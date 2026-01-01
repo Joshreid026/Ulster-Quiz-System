@@ -25,7 +25,7 @@ namespace UlsterQuizSystem
             while (active)
             {
                 Console.Clear();
-                Console.WriteLine($"--- STUDENT MENU ({Username}) ---");
+                Console.WriteLine($"--- STUDENT MENU ( Logged in as: {Username} ) ---");
                 Console.WriteLine("1. Play Quiz (Filter by Category)");
                 Console.WriteLine("2. Logout");
                 Console.Write("Select: ");
