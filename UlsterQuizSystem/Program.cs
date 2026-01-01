@@ -9,3 +9,5 @@ class Program
 }
 
 // Class created by Josh Reid
+// Citations: Intellisense code suggestions from Visual Studio 2022
+// general syntax and code solutions found on StackOverflow and google searches gemini.
