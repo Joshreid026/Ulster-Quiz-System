@@ -12,6 +12,15 @@ namespace UlsterQuizSystem {
     public string CategoryName { get; set; }
     public string CategoryDescription { get; set; }
 
+    // Default constructor
+    public Category()
+    {
+        CategoryID = 0;
+        CategoryName = "Default";
+        CategoryDescription = "Default Description";
+    }
+
+    // Parameterized constructor
     public Category(int id, string name, string desc)
     {
         CategoryID = id;
@@ -19,6 +28,7 @@ namespace UlsterQuizSystem {
         CategoryDescription = desc;
     }
 
+    // defines how category is displayed
     public override string ToString() => $"{CategoryID}. {CategoryName} ({CategoryDescription})";
     }
 

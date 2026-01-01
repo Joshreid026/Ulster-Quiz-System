@@ -17,6 +17,15 @@ namespace UlsterQuizSystem
         public string Email { get; set; }
         public string Role { get; protected set; }
 
+        public User()
+        {
+            ID = 0;
+            Username = "default";
+            Password = "password";
+            Email = "email@mail.com";
+            Role = "User";
+        }
+
         public User(int id, string username, string password, string email, string role)
         {
             ID = id;
