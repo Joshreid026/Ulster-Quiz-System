@@ -264,13 +264,15 @@ namespace UlsterQuizSystem
             string text = Console.ReadLine();
             Console.Write("Correct Answer: ");
             string correct = Console.ReadLine();
+            Console.WriteLine("Enter Difficulty Level (Easy/Medium/Hard): ");
+            string difficulty = Console.ReadLine();
 
             List<string> options = new List<string>();
             Console.WriteLine("Enter 4 Options:");
             for (int i = 1; i <= 4; i++) { Console.Write($"{i}: "); options.Add(Console.ReadLine()); }
 
             int newId = quiz.QuizQuestions.Any() ? quiz.QuizQuestions.Max(q => q.QuestionID) + 1 : 1;
-            quiz.QuizQuestions.Add(new Question(newId, text, options, correct, "Medium"));
+            quiz.QuizQuestions.Add(new Question(newId, text, options, correct, difficulty));
             Console.WriteLine("Question added.");
         }
 
@@ -296,6 +298,10 @@ namespace UlsterQuizSystem
                     Console.Write($"Correct Answer (Current: {question.QuestionCorrectAnswer}): ");
                     input = Console.ReadLine();
                     if (!string.IsNullOrWhiteSpace(input)) question.QuestionCorrectAnswer = input;
+
+                    Console.Write($"Question Difficulty (Current: {question.QuestionDifficultyLevel}): ");
+                    input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input)) question.QuestionDifficultyLevel = input;
 
                     Console.WriteLine("\n--- Update Options ---");
                     for (int i = 0; i < question.QuestionOptions.Count; i++)
@@ -399,6 +405,7 @@ namespace UlsterQuizSystem
                     Console.WriteLine($"   Q{quest.QuestionID}: {quest.QuestionText}");
                     Console.WriteLine($"      Correct: {quest.QuestionCorrectAnswer}");
                     Console.WriteLine($"      Options: {string.Join(", ", quest.QuestionOptions)}");
+                    Console.WriteLine($"      Difficulty: {quest.QuestionDifficultyLevel}");
                 }
             }
         }
