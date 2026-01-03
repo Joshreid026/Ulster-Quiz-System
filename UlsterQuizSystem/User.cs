@@ -19,7 +19,6 @@ namespace UlsterQuizSystem
 
         public User()
         {
-            ID = 0;
             Username = "default";
             Password = "password";
             Email = "email@mail.com";

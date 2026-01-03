@@ -12,14 +12,15 @@ namespace UlsterQuizSystem
 
         public Student() : base()
         {
-            Role = "student";
+            ID = 101;
+            Role = "Student";
             Status = "inactive";
         }
 
         public Student(int id, string username, string password, string email, string status)
             : base(id, username, password, email, "Student")
         {
-            Role = "student";
+            Role = "Student";
             Status = status;
         }
 

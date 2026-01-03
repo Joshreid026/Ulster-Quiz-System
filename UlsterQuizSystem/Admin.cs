@@ -12,14 +12,15 @@ namespace UlsterQuizSystem
 
         public Admin() : base()
         {
-            Role = "admin";
+            ID = 0;
+            Role = "Admin";
             LoginDate = DateTime.MinValue;
         }
 
         public Admin(int id, string username, string password, string email)
             : base(id, username, password, email, "Admin")
         {
-            Role = "admin";
+            Role = "Admin";
             LoginDate = DateTime.MinValue;
         }
 
