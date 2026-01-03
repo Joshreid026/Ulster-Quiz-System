@@ -58,10 +58,10 @@ namespace UlsterQuizSystem
         {
             Console.Clear();
             Console.WriteLine("--- Admin Login ---");
-            Console.Write("Username: "); string u = Console.ReadLine();
-            Console.Write("Password: "); string p = Console.ReadLine();
+            Console.Write("Username: "); string username = Console.ReadLine();
+            Console.Write("Password: "); string password = Console.ReadLine();
 
-            Admin admin = _admins.Find(a => a.Username == u && a.Password == p);
+            Admin admin = _admins.Find(a => a.Username == username && a.Password == password);
 
             if (admin != null)
             {
@@ -78,9 +78,9 @@ namespace UlsterQuizSystem
         {
             Console.Clear();
             Console.WriteLine("--- Student Login ---");
-            Console.Write("Username: "); string u = Console.ReadLine();
+            Console.Write("Username: "); string username = Console.ReadLine();
 
-            Student student = _students.Find(s => s.Username == u);
+            Student student = _students.Find(s => s.Username == username);
 
             if (student != null)
             {
@@ -90,7 +90,7 @@ namespace UlsterQuizSystem
                 }
                 else
                 {
-                    Console.WriteLine("Account Suspended/Inactive.");
+                    Console.WriteLine("Account is inactive.");
                     Console.ReadKey();
                 }
             }
@@ -132,7 +132,7 @@ namespace UlsterQuizSystem
             // Default questions
             // ==========================================
 
-            var qs = new List<Question>
+            var questions = new List<Question>
             {
                 new Question(1, "What does OOP stand for? ", new List<string>{"Object-Oriented Programming", "Operational Output Processing", "Open Order Protocol", "Overloaded Operator Procedure"}, "Object-Oriented Programming", "Easy"),
                 new Question(2, "Which of the following is NOT a core principle of OOP?", new List<string>{"Encapsulation", "Polymorphism", "Abstraction", "Compilation"}, "Compilation", "Easy"),
@@ -151,7 +151,7 @@ namespace UlsterQuizSystem
             // ==========================================
 
             var quiz1 = new Quiz(1, "OOP Fundamentals", "Covers basics of object-oriented programming.", cat1, new DateTime(2025,09,01));
-            quiz1.QuizQuestions = qs;
+            quiz1.QuizQuestions = questions;
 
             var quiz2 = new Quiz(2, "Data Structures", "Focuses on arrays, lists, stacks, queues, trees, and their applications.", cat2, new DateTime(2025, 09, 01));
             var quiz3 = new Quiz(3, "Software Design", "Includes design patterns, architecture principles, and system modelling.", cat3, new DateTime(2025, 09, 01));
@@ -172,3 +172,5 @@ namespace UlsterQuizSystem
 }
 
 // Class created by Josh Reid
+// Citations: Intellisense code suggestions from Visual Studio 2022
+// general syntax and code solutions found on StackOverflow and google searches gemini.
