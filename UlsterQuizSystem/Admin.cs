@@ -440,7 +440,7 @@ namespace UlsterQuizSystem
             if (admins.Any())
             {
                 Console.WriteLine("\n[ADMINS]");
-                foreach (var a in admins) Console.WriteLine($"ID: {a.ID} | User: {a.Username} | Email: {a.Email}");
+                foreach (var a in admins) Console.WriteLine($"ID: {a.ID} | User: {a.Username} | Email: {a.Email} | Last Login: {a.LoginDate}");
             }
             Console.WriteLine("\n[STUDENTS]");
             foreach (var s in students)
@@ -453,7 +453,7 @@ namespace UlsterQuizSystem
             foreach (var q in quizzes)
             {
                 string catName = q.QuizCategory != null ? q.QuizCategory.CategoryName : "Unassigned";
-                Console.WriteLine($"ID: {q.QuizID} | Title: {q.QuizTitle} | Category: {catName} | Questions: {q.QuizQuestions.Count}");
+                Console.WriteLine($"ID: {q.QuizID} | Title: {q.QuizTitle} | Category: {catName} | Questions: {q.QuizQuestions.Count} | Creation Date: {q.QuizDate}");
             }
         }
 
