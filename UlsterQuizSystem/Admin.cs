@@ -33,7 +33,7 @@ namespace UlsterQuizSystem
                 Console.WriteLine("1. Manage Quizzes & Questions");
                 Console.WriteLine("2. Manage Users");
                 Console.WriteLine("3. Manage Categories");
-                Console.WriteLine("4. View All System Data (Reports)");
+                Console.WriteLine("4. Reports");
                 Console.WriteLine("5. Save Quizzes to CSV");
                 Console.WriteLine("6. Logout");
                 Console.Write("Select: ");
@@ -61,7 +61,7 @@ namespace UlsterQuizSystem
             Console.Clear();
             Console.WriteLine("--- Manage Users ---");
             Console.WriteLine("1. Add User");
-            Console.WriteLine("2. Update User Details");
+            Console.WriteLine("2. Update Student Details");
             Console.WriteLine("3. List All Users");
             Console.WriteLine("4. Remove User");
             Console.Write("Select: ");
