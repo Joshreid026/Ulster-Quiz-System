@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace UlsterQuizSystem
 {
+
+    public enum UserRole
+    {
+        Admin,
+        User,
+        Student
+    }
+
     public abstract class User
     {
         // ===================================================================
@@ -15,7 +23,7 @@ namespace UlsterQuizSystem
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string Role { get; protected set; }
+        public UserRole Role { get; set; }
 
         // Default Constructor
         public User()
@@ -23,11 +31,11 @@ namespace UlsterQuizSystem
             Username = "default";
             Password = "password";
             Email = "email@mail.com";
-            Role = "User";
+            Role = UserRole.User;
         }
 
         // Parameterized Constructor
-        public User(int id, string username, string password, string email, string role)
+        public User(int id, string username, string password, string email, UserRole role)
         {
             ID = id;
             Username = username;

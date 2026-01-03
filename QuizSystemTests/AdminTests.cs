@@ -16,7 +16,7 @@ public class AdminTests
         string adminUsername = "default";
         string adminPassword = "password";
         string adminEmail = "email@mail.com";
-        string adminRole = "Admin";
+        UserRole adminRole = UserRole.Admin;
         DateTime adminLogInDate = DateTime.MinValue;
 
         // Act
@@ -39,7 +39,7 @@ public class AdminTests
         string adminUsername = "John";
         string adminPassword = "Doe";
         string adminEmail = "johndoe05@outlook.com";
-        string adminRole = "Admin";
+        UserRole adminRole = UserRole.Admin;
         DateTime adminLogInDate = DateTime.MinValue;
 
         // Act

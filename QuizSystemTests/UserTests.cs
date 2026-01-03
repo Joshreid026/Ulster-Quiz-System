@@ -1,3 +1,4 @@
+using System.IO;
 using UlsterQuizSystem;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
@@ -14,7 +15,7 @@ public class UserTests
         string userUsername = "default";
         string userPassword = "password";
         string userEmail = "email@mail.com";
-        string userRole = "User";
+        UserRole userRole = UserRole.User;
 
         // Act
         TestUser user = new TestUser();
@@ -35,7 +36,7 @@ public class UserTests
         string userUsername = "John";
         string userPassword = "Doe";
         string userEmail = "johndoe05@outlook.com";
-        string userRole = "User";
+        UserRole userRole = UserRole.User;
 
         // Act
         TestUser user = new TestUser(userID, userUsername, userPassword, userEmail, userRole);
@@ -56,7 +57,7 @@ public class UserTests
         string userUsername = "John";
         string userPassword = "Doe";
         string userEmail = "johndoe05@outlook.com";
-        string userRole = "User";
+        UserRole userRole = UserRole.User;
         string expectedOutput = "\nUser John logged out.";
 
         // Redirects Console Output to a StringWriter
@@ -70,33 +71,26 @@ public class UserTests
 
             // Assert
             string actualOutput = stringWriter.ToString().Trim();
-            Assert.AreEqual(expectedOutput.Trim(), actualOutput, "\nUser John logged out.");
+            Assert.AreEqual(expectedOutput.Trim(), actualOutput, "Expected output did not match actual output");
         }
     }
 
     [TestMethod()]
-    public void ToStringOutputsCorrectMessage()
+    public void ToStringReturnCorrectMessage()
     {
         // Arrange
         int userID = 0;
         string userUsername = "John";
         string userPassword = "Doe";
         string userEmail = "johndoe05@outlook.com";
-        string userRole = "User";
-        string expectedOutput = "ID: 0 | User: John | Role: User";
+        UserRole userRole = UserRole.User;
+        string expectedReturnValue = "ID: 0 | User: John | Role: User";
 
-        // Redirects Console Output to a StringWriter
-        using (var stringWriter = new StringWriter())
-        {
-            Console.SetOut(stringWriter);
+        // Act
+        TestUser user = new TestUser(userID, userUsername, userPassword, userEmail, userRole);
+        string actualReturnValue = user.ToString();
 
-            // Act
-            TestUser user = new TestUser(userID, userUsername, userPassword, userEmail, userRole);
-            user.Logout();
-
-            // Assert
-            string actualOutput = stringWriter.ToString().Trim(); 
-            Assert.AreEqual(expectedOutput.Trim(), actualOutput, "ID: 0 | User: John | Role: User");
-        }
+        // Assert
+        Assert.AreEqual(expectedReturnValue, actualReturnValue, "Expected return value did not match actual return value");
     }
 }

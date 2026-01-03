@@ -13,7 +13,7 @@ public class StudentTests
         string studentUsername = "default";
         string studentPassword = "password";
         string studentEmail = "email@mail.com";
-        string studentRole = "Student";
+        UserRole studentRole = UserRole.Student;
         string studentStatus = "active";
 
         // Act
@@ -36,7 +36,7 @@ public class StudentTests
         string studentUsername = "John";
         string studentPassword = "Doe";
         string studentEmail = "johndoe05@outlook.com";
-        string studentRole = "Student";
+        UserRole studentRole = UserRole.Student;
         string studentStatus = "active";
 
         // Act
