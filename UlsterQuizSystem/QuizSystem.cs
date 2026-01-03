@@ -58,10 +58,10 @@ namespace UlsterQuizSystem
         {
             Console.Clear();
             Console.WriteLine("--- Admin Login ---");
-            Console.Write("Username: "); string u = Console.ReadLine();
-            Console.Write("Password: "); string p = Console.ReadLine();
+            Console.Write("Username: "); string username = Console.ReadLine();
+            Console.Write("Password: "); string password = Console.ReadLine();
 
-            Admin admin = _admins.Find(a => a.Username == u && a.Password == p);
+            Admin admin = _admins.Find(a => a.Username == username && a.Password == password);
 
             if (admin != null)
             {
@@ -90,7 +90,7 @@ namespace UlsterQuizSystem
                 }
                 else
                 {
-                    Console.WriteLine("Account Suspended/Inactive.");
+                    Console.WriteLine("Account is inactive.");
                     Console.ReadKey();
                 }
             }
@@ -175,3 +175,5 @@ namespace UlsterQuizSystem
 }
 
 // Class created by Josh Reid
+// Citations: Intellisense code suggestions from Visual Studio 2022
+// general syntax and code solutions found on StackOverflow and google searches gemini.

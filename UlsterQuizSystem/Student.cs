@@ -11,7 +11,7 @@ namespace UlsterQuizSystem
         public string Status { get; set; }
 
         public Student(int id, string username, string password, string email, string status)
-            : base(id, username, password, email, "Student")
+            : base(id, username, password, email, UserRole.Student)
         {
             Status = status;
         }
@@ -25,7 +25,7 @@ namespace UlsterQuizSystem
             while (active)
             {
                 Console.Clear();
-                Console.WriteLine($"--- STUDENT MENU ({Username}) ---");
+                Console.WriteLine($"--- STUDENT MENU ( Logged in as: {Username} ) ---");
                 Console.WriteLine("1. Play Quiz (Filter by Category)");
                 Console.WriteLine("2. Logout");
                 Console.Write("Select: ");
@@ -116,3 +116,5 @@ namespace UlsterQuizSystem
 }
 
 // Class created by Josh Reid
+// Citations: Intellisense code suggestions from Visual Studio 2022
+// general syntax and code solutions found on StackOverflow and google searches gemini.

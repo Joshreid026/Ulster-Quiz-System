@@ -11,7 +11,7 @@ namespace UlsterQuizSystem
         public DateTime LoginDate { get; set; }
 
         public Admin(int id, string username, string password, string email)
-            : base(id, username, password, email, "Admin")
+            : base(id, username, password, email, UserRole.Admin)
         {
             LoginDate = DateTime.MinValue;
         }
@@ -28,7 +28,7 @@ namespace UlsterQuizSystem
             while (active)
             {
                 Console.Clear();
-                Console.WriteLine($"--- ADMIN DASHBOARD ({Username}) ---");
+                Console.WriteLine($"--- ADMIN DASHBOARD ( logged in as: {Username} ) ---");
                 Console.WriteLine($"Last Login: {LoginDate}");
                 Console.WriteLine("1. Manage Quizzes & Questions");
                 Console.WriteLine("2. Manage Users (Students)");
@@ -456,3 +456,5 @@ namespace UlsterQuizSystem
 }
 
 // Class created by Josh Reid
+// Citations: Intellisense code suggestions from Visual Studio 2022
+// general syntax and code solutions found on StackOverflow and google searches gemini.
