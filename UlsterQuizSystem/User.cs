@@ -17,6 +17,7 @@ namespace UlsterQuizSystem
         public string Email { get; set; }
         public string Role { get; protected set; }
 
+        // Default Constructor
         public User()
         {
             Username = "default";
@@ -25,6 +26,7 @@ namespace UlsterQuizSystem
             Role = "User";
         }
 
+        // Parameterized Constructor
         public User(int id, string username, string password, string email, string role)
         {
             ID = id;

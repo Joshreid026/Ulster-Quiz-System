@@ -12,7 +12,7 @@ namespace UlsterQuizSystem {
     public string CategoryName { get; set; }
     public string CategoryDescription { get; set; }
 
-    // Default constructor
+    // Default Constructor
     public Category()
     {
         CategoryID = 0;
@@ -20,7 +20,7 @@ namespace UlsterQuizSystem {
         CategoryDescription = "Default Description";
     }
 
-    // Parameterized constructor
+    // Parameterized Constructor
     public Category(int id, string name, string desc)
     {
         CategoryID = id;

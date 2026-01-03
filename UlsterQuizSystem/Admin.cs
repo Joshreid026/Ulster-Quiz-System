@@ -10,17 +10,19 @@ namespace UlsterQuizSystem
     {
         public DateTime LoginDate { get; set; }
 
-        public Admin() : base()
+        // Default Constructor
+        public Admin() 
+            : base()
         {
             ID = 0;
             Role = "Admin";
             LoginDate = DateTime.MinValue;
         }
 
+        // Parameterized Constructor
         public Admin(int id, string username, string password, string email)
             : base(id, username, password, email, "Admin")
         {
-            Role = "Admin";
             LoginDate = DateTime.MinValue;
         }
 

@@ -10,17 +10,19 @@ namespace UlsterQuizSystem
     {
         public string Status { get; set; }
 
-        public Student() : base()
+        // Default Constructor
+        public Student() 
+            : base()
         {
             ID = 101;
             Role = "Student";
             Status = "inactive";
         }
 
+        // Parameterized Constructor
         public Student(int id, string username, string password, string email, string status)
             : base(id, username, password, email, "Student")
         {
-            Role = "Student";
             Status = status;
         }
 

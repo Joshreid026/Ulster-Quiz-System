@@ -14,17 +14,19 @@ namespace UlsterQuizSystem
         public string QuestionCorrectAnswer { get; set; }
         public string QuestionDifficultyLevel { get; set; }
 
-    public Question()
-    {
-        QuestionID = 0;
-        QuestionText = "";
-        QuestionOptions = new List<string>();
-        QuestionCorrectAnswer = "";
-        QuestionDifficultyLevel = "";
-    }
-        // parameterized constructor
-    public Question(int id, string text, List<string> options, string ans, string diff)
-    {
+        // Default Constructor
+        public Question()
+        {
+            QuestionID = 0;
+            QuestionText = "";
+            QuestionOptions = new List<string>();
+            QuestionCorrectAnswer = "";
+            QuestionDifficultyLevel = "";
+        }
+    
+        // Parameterized Constructor
+        public Question(int id, string text, List<string> options, string ans, string diff)
+        {
             QuestionID = id;
             QuestionText = text;
             QuestionOptions = options;

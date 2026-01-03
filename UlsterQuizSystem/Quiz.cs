@@ -15,7 +15,7 @@ namespace UlsterQuizSystem
         public List<Question> QuizQuestions { get; set; }
         public DateTime QuizDate { get; set; }
 
-        // default constructor
+        // Default Constructor
         public Quiz()
         {
             QuizID = 0;
@@ -25,7 +25,8 @@ namespace UlsterQuizSystem
             QuizQuestions = new List<Question>();
             QuizDate = DateTime.Now;
         }
-        // parameterized constructor
+
+        // Parameterized Constructor
         public Quiz(int id, string title, string desc, Category cat, DateTime date)
         {
             QuizID = id;
