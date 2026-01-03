@@ -104,7 +104,7 @@ namespace UlsterQuizSystem
         private void LoadSampleData()
         {
             // ==========================================
-            // Default categories
+            // Default Categories
             // ==========================================
             var cat1 = new Category(1, "Programming", "Concepts of object-oriented programming and coding principles");
             var cat2 = new Category(2, "Data Structures", "Arrays, lists, stacks, queues, trees, and their applications");
@@ -122,14 +122,14 @@ namespace UlsterQuizSystem
             _categories.Add(cat7);
 
             // ==========================================
-            // Default users
+            // Default Users
             // ==========================================
 
             _admins.Add(new Admin(1, "admin", "admin123", "admin@ulster.ac.uk"));
             _students.Add(new Student(101, "student", "student123", "student@ulster.ac.uk", "active"));
 
             // ==========================================
-            // Default questions
+            // Default Questions
             // ==========================================
 
             var questions = new List<Question>
@@ -147,18 +147,24 @@ namespace UlsterQuizSystem
             };
 
             // ==========================================
-            // Default quizzes
+            // Default Quizzes
             // ==========================================
 
             var quiz1 = new Quiz(1, "OOP Fundamentals", "Covers basics of object-oriented programming.", cat1, new DateTime(2025,09,01));
-            quiz1.QuizQuestions = questions;
-
             var quiz2 = new Quiz(2, "Data Structures", "Focuses on arrays, lists, stacks, queues, trees, and their applications.", cat2, new DateTime(2025, 09, 01));
             var quiz3 = new Quiz(3, "Software Design", "Includes design patterns, architecture principles, and system modelling.", cat3, new DateTime(2025, 09, 01));
             var quiz4 = new Quiz(4, "Web Development", "HTML, CSS, JavaScript and client-server interactions", cat4, new DateTime(2025, 09, 07));
             var quiz5 = new Quiz(5, "Database Systems", "SQL queries, relational models, normalization, and transactions.", cat5, new DateTime(2025, 09, 07));
             var quiz6 = new Quiz(6, "Cybersecurity Basics", "Encryption, authentication, and common security threats.", cat6, new DateTime(2025, 09, 11));
             var quiz7 = new Quiz(7, "Computer Networks", "Protocols, IP addressing, routing, and network layers.", cat7, new DateTime(2025, 09, 13));
+
+            quiz1.QuizQuestions = questions;
+            quiz2.QuizQuestions = questions;
+            quiz3.QuizQuestions = questions;
+            quiz4.QuizQuestions = questions;
+            quiz5.QuizQuestions = questions;
+            quiz6.QuizQuestions = questions;
+            quiz7.QuizQuestions = questions;
 
             _quizzes.Add(quiz1);
             _quizzes.Add(quiz2);

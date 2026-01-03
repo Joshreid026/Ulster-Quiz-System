@@ -17,7 +17,6 @@ public class StudentTests
         //Required Sample Data
         _students = new List<Student>();
         _students.Add(new Student());
-        _students.Add(new Student(102, "John", "Doe", "johndoe05@outlook.com", "active"));
     }
 
     // ==========================================
@@ -53,6 +52,9 @@ public class StudentTests
         string studentEmail = "johndoe05@outlook.com";
         UserRole studentRole = UserRole.Student;
         string studentStatus = "active";
+
+        // Act
+        _students.Add(new Student(studentID, studentUsername, studentPassword, studentEmail, "active"));
 
         // Assert
         Assert.AreEqual(studentID, _students[1].ID, "ID was not initialized correctly.");

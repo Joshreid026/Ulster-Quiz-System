@@ -16,7 +16,6 @@ public class CategoryTests
         //Required Sample Data
         _category = new List<Category>();
         _category.Add(new Category());
-        _category.Add(new Category(1, "Default", "Default Description"));
     }
 
     // ==========================================
@@ -31,9 +30,9 @@ public class CategoryTests
         string categoryDescription = "Default Description";
 
         // Assert
-        Assert.AreEqual(categoryID, _category[0].CategoryID);
-        Assert.AreEqual(categoryName, _category[0].CategoryName);
-        Assert.AreEqual(categoryDescription, _category[0].CategoryDescription);
+        Assert.AreEqual(categoryID, _category[0].CategoryID, "CategoryID was not initialized correctly.");
+        Assert.AreEqual(categoryName, _category[0].CategoryName, "CategoryName was not initialized correctly.");
+        Assert.AreEqual(categoryDescription, _category[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
     }
 
     [TestMethod]
@@ -45,12 +44,12 @@ public class CategoryTests
         string categoryDescription = "Default Description";
 
         // Act
-        Category category = new Category(categoryID, categoryName, categoryDescription);
+        _category.Add(new Category(categoryID, categoryName, categoryDescription));
 
         // Assert
-        Assert.AreEqual(categoryID, _category[1].CategoryID);
-        Assert.AreEqual(categoryName, _category[1].CategoryName);
-        Assert.AreEqual(categoryDescription, _category[1].CategoryDescription);
+        Assert.AreEqual(categoryID, _category[1].CategoryID, "CategoryID was not initialized correctly.");
+        Assert.AreEqual(categoryName, _category[1].CategoryName, "CategoryName was not initialized correctly.");
+        Assert.AreEqual(categoryDescription, _category[1].CategoryDescription, "CategoryDescription was not initialized correctly.");
     }
 
     // ==========================================

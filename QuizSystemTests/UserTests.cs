@@ -18,7 +18,6 @@ public class UserTests
         //Required Sample Data
         _users = new List<TestUser>();
         _users.Add(new TestUser());
-        _users.Add(new TestUser(1, "John", "Doe", "johndoe05@outlook.com"));
     }
 
     // ==========================================
@@ -53,7 +52,7 @@ public class UserTests
         UserRole userRole = UserRole.User;
 
         // Act
-        TestUser user = new TestUser(userID, userUsername, userPassword, userEmail);
+        _users.Add(new TestUser(userID, userUsername, userPassword, userEmail));
 
         // Assert
         Assert.AreEqual(userID, _users[1].ID, "ID was not initialized correctly.");
@@ -87,7 +86,7 @@ public class UserTests
 
             // Assert
             string actualOutput = stringWriter.ToString().Trim();
-            Assert.AreEqual(expectedOutput.Trim(), actualOutput, "Expected output did not match actual output");
+            Assert.AreEqual(expectedOutput.Trim(), actualOutput, "Expected output did not match actual output.");
         }
     }
 
@@ -101,6 +100,6 @@ public class UserTests
         string actualReturnValue = _users[0].ToString();
 
         // Assert
-        Assert.AreEqual(expectedReturnValue, actualReturnValue, "Expected return value did not match actual return value");
+        Assert.AreEqual(expectedReturnValue, actualReturnValue, "Expected return value did not match actual return value.");
     }
 }

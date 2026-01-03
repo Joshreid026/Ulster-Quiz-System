@@ -19,7 +19,6 @@ public class AdminTests
         //Required Sample Data
         _admins = new List<Admin>();
         _admins.Add(new Admin());
-        _admins.Add(new Admin(2, "John", "Doe", "johndoe05@outlook.com"));
     }
 
     // ==========================================
@@ -55,6 +54,9 @@ public class AdminTests
         string adminEmail = "johndoe05@outlook.com";
         UserRole adminRole = UserRole.Admin;
         DateTime adminLogInDate = DateTime.MinValue;
+
+        // Act
+        _admins.Add(new Admin(adminID, adminUsername, adminPassword, adminEmail));
 
         // Assert
         Assert.AreEqual(adminID, _admins[1].ID, "ID was not initialized correctly.");
