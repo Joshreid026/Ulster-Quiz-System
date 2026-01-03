@@ -11,7 +11,7 @@ namespace UlsterQuizSystem
         public DateTime LoginDate { get; set; }
 
         public Admin(int id, string username, string password, string email)
-            : base(id, username, password, email, "Admin")
+            : base(id, username, password, email, UserRole.Admin)
         {
             LoginDate = DateTime.MinValue;
         }

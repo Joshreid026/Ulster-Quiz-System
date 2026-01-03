@@ -11,7 +11,7 @@ namespace UlsterQuizSystem
         public string Status { get; set; }
 
         public Student(int id, string username, string password, string email, string status)
-            : base(id, username, password, email, "Student")
+            : base(id, username, password, email, UserRole.Student)
         {
             Status = status;
         }
