@@ -31,7 +31,7 @@ namespace UlsterQuizSystem
                 Console.WriteLine($"--- ADMIN DASHBOARD ( logged in as: {Username} ) ---");
                 Console.WriteLine($"Last Login: {LoginDate}");
                 Console.WriteLine("1. Manage Quizzes & Questions");
-                Console.WriteLine("2. Manage Users (Students)");
+                Console.WriteLine("2. Manage Users");
                 Console.WriteLine("3. Manage Categories");
                 Console.WriteLine("4. View All System Data (Reports)");
                 Console.WriteLine("5. Save Quizzes to CSV");
@@ -42,7 +42,7 @@ namespace UlsterQuizSystem
                 switch (choice)
                 {
                     case "1": ManageQuizzesAndQuestions(quizzes, categories); break;
-                    case "2": ManageUsers(students); break;
+                    case "2": ManageUsers(students, admins); break;
                     case "3": ManageCategories(categories, quizzes); break;
                     case "4": ViewSystemDataMenu(quizzes, categories, students, admins); break;
                     case "5": SaveToCSV(quizzes); break;
@@ -56,28 +56,51 @@ namespace UlsterQuizSystem
         // Manage users methods
         // ==========================================
 
-        private void ManageUsers(List<Student> students)
+        private void ManageUsers(List<Student> students, List<Admin> admins)
         {
             Console.Clear();
-            Console.WriteLine("--- Manage Students ---");
-            Console.WriteLine("1. Add Student");
-            Console.WriteLine("2. Update Student Details");
-            Console.WriteLine("3. List All Students");
-            Console.WriteLine("4. Remove Student");
+            Console.WriteLine("--- Manage Users ---");
+            Console.WriteLine("1. Add User");
+            Console.WriteLine("2. Update User Details");
+            Console.WriteLine("3. List All Users");
+            Console.WriteLine("4. Remove User");
             Console.Write("Select: ");
             string choice = Console.ReadLine();
 
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("\n--- Add New Student ---");
-                    Console.Write("Username: "); string username = Console.ReadLine();
-                    Console.Write("Password: "); string pass = Console.ReadLine();
-                    Console.Write("Email Address: "); string email = Console.ReadLine();
+                    Console.WriteLine("\n--- Add New User ---");
+                    Console.WriteLine("Enter user role (Student/Admin): ");
+                    string roleInputStr = Console.ReadLine();
+                    UserRole roleInput;
+                    if (!Enum.TryParse(roleInputStr, true, out roleInput) || (roleInput != UserRole.Student && roleInput != UserRole.Admin))
+                    {
+                        Console.WriteLine("Invalid role. returning...");
+                        Console.ReadKey();
+                    } 
+                    else if (roleInput == UserRole.Admin)
+                    {
+                        Console.Write("Username: "); string username = Console.ReadLine();
+                        Console.Write("Password: "); string pass = Console.ReadLine();
+                        Console.Write("Email Address: "); string email = Console.ReadLine();
 
-                    int id = students.Any() ? students.Max(s => s.ID) + 1 : 100;
-                    students.Add(new Student(id, username, pass, email, "active"));
-                    Console.WriteLine($"Student '{username}' added successfully.");
+                        int id = admins.Any() ? admins.Max(s => s.ID) + 1 : 1;
+                        admins.Add(new Admin(id, username, pass, email));
+                        Console.WriteLine($"Admin '{username}' added successfully.");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.Write("Username: "); string username = Console.ReadLine();
+                        Console.Write("Password: "); string pass = Console.ReadLine();
+                        Console.Write("Email Address: "); string email = Console.ReadLine();
+
+                        int id = students.Any() ? students.Max(s => s.ID) + 1 : 100;
+                        students.Add(new Student(id, username, pass, email, "active"));
+                        Console.WriteLine($"Student '{username}' added successfully.");
+                        Console.ReadKey();
+                    }
                     break;
 
                 case "2":
@@ -116,12 +139,14 @@ namespace UlsterQuizSystem
                     break;
 
                 case "3":
-                    ViewAllUsers(students, new List<Admin>());
+                    ViewAllUsers(students, admins);
+                    Console.WriteLine("\nPress any key to return...");
+                    Console.ReadKey();
                     break;
 
                 case "4":
                     foreach (var s in students) Console.WriteLine($"ID: {s.ID} | {s.Username}");
-                    Console.Write("\nEnter Student ID to remove: ");
+                    Console.Write("\nEnter User ID to remove: ");
                     if (int.TryParse(Console.ReadLine(), out int removeId))
                     {
                         int removed = students.RemoveAll(s => s.ID == removeId);
