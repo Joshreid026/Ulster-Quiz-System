@@ -5,6 +5,23 @@ namespace QuizSystemTests;
 [TestClass]
 public class CategoryTests
 {
+    // ==========================================
+    // Test Initialization + Fields
+    // ==========================================
+    private List<Category> _category;
+
+    [TestInitialize]
+    public void Setup()
+    {
+        //Required Sample Data
+        _category = new List<Category>();
+        _category.Add(new Category());
+        _category.Add(new Category(1, "Default", "Default Description"));
+    }
+
+    // ==========================================
+    // Constructor Tests
+    // ==========================================
     [TestMethod]
     public void CategoryDefaultConstructor_ShouldInitialiseProperties()
     {
@@ -13,20 +30,17 @@ public class CategoryTests
         string categoryName = "Default";
         string categoryDescription = "Default Description";
 
-        // Act
-        Category category = new Category();
-
         // Assert
-        Assert.AreEqual(categoryID, category.CategoryID);
-        Assert.AreEqual(categoryName, category.CategoryName);
-        Assert.AreEqual(categoryDescription, category.CategoryDescription);
+        Assert.AreEqual(categoryID, _category[0].CategoryID);
+        Assert.AreEqual(categoryName, _category[0].CategoryName);
+        Assert.AreEqual(categoryDescription, _category[0].CategoryDescription);
     }
 
     [TestMethod]
-    public void AdminParameterisedConstructor_ShouldInitialiseProperties()
+    public void CategoryParameterisedConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int categoryID = 0;
+        int categoryID = 1;
         string categoryName = "Default";
         string categoryDescription = "Default Description";
 
@@ -34,8 +48,17 @@ public class CategoryTests
         Category category = new Category(categoryID, categoryName, categoryDescription);
 
         // Assert
-        Assert.AreEqual(categoryID, category.CategoryID);
-        Assert.AreEqual(categoryName, category.CategoryName);
-        Assert.AreEqual(categoryDescription, category.CategoryDescription);
+        Assert.AreEqual(categoryID, _category[1].CategoryID);
+        Assert.AreEqual(categoryName, _category[1].CategoryName);
+        Assert.AreEqual(categoryDescription, _category[1].CategoryDescription);
     }
+
+    // ==========================================
+    // Get/Set Tests
+    // ==========================================
+
+
+    // ==========================================
+    // Method Tests
+    // ==========================================
 }
