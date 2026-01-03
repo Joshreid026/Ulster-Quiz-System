@@ -12,7 +12,7 @@ public class AdminTests
     public void AdminDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int adminID = 0;
+        int adminID = 1;
         string adminUsername = "default";
         string adminPassword = "password";
         string adminEmail = "email@mail.com";
@@ -35,7 +35,7 @@ public class AdminTests
     public void AdminParameterisedConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int adminID = 0;
+        int adminID = 1;
         string adminUsername = "John";
         string adminPassword = "Doe";
         string adminEmail = "johndoe05@outlook.com";

@@ -14,7 +14,7 @@ public class StudentTests
         string studentPassword = "password";
         string studentEmail = "email@mail.com";
         string studentRole = "Student";
-        string studentStatus = "inactive";
+        string studentStatus = "active";
 
         // Act
         Student student = new Student();
@@ -37,7 +37,7 @@ public class StudentTests
         string studentPassword = "Doe";
         string studentEmail = "johndoe05@outlook.com";
         string studentRole = "Student";
-        string studentStatus = "inactive";
+        string studentStatus = "active";
 
         // Act
         Student student = new Student(studentID, studentUsername, studentPassword, studentEmail, studentStatus);

@@ -16,7 +16,7 @@ namespace UlsterQuizSystem
         {
             ID = 101;
             Role = "Student";
-            Status = "inactive";
+            Status = "active";
         }
 
         // Parameterized Constructor

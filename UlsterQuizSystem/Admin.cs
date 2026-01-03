@@ -14,7 +14,7 @@ namespace UlsterQuizSystem
         public Admin() 
             : base()
         {
-            ID = 0;
+            ID = 1;
             Role = "Admin";
             LoginDate = DateTime.MinValue;
         }
