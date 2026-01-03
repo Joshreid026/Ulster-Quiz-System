@@ -14,7 +14,7 @@ public class CategoryTests
     [TestInitialize]
     public void Setup()
     {
-        //Required Sample Data
+        // Required Sample Data
         _category = new List<Category>();
         _category.Add(new Category());
     }

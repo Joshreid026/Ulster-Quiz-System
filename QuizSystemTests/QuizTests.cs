@@ -16,7 +16,7 @@ public class QuizTests
     [TestInitialize]
     public void Setup()
     {
-        //Required Sample Data
+        // Required Sample Data
         _categories = new List<Category>();
         _quizzes = new List<Quiz>();
 

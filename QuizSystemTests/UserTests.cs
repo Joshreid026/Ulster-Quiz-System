@@ -16,7 +16,7 @@ public class UserTests
     [TestInitialize]
     public void Setup()
     {
-        //Required Sample Data
+        // Required Sample Data
         _users = new List<TestUser>();
         _users.Add(new TestUser());
     }

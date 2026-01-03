@@ -17,7 +17,7 @@ namespace UlsterQuizSystem
     public abstract class User
     {
         // ===================================================================
-        // Protected setters for ID/Role ensure they aren't changed externally
+        // Protected Setters for ID/Role ensure they aren't changed externally
         // ===================================================================
         public int ID { get; protected set; }
         public string Username { get; set; }

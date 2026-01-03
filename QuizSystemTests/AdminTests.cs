@@ -18,7 +18,7 @@ public class AdminTests
     [TestInitialize]
     public void Setup()
     {
-        //Required Sample Data
+        // Required Sample Data
         _admins = new List<Admin>();
         _admins.Add(new Admin());
     }

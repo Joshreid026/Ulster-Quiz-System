@@ -15,7 +15,7 @@ public class StudentTests
     [TestInitialize]
     public void Setup()
     {
-        //Required Sample Data
+        // Required Sample Data
         _students = new List<Student>();
         _students.Add(new Student());
     }
