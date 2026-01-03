@@ -1,4 +1,5 @@
 using System.IO;
+using System.Reflection;
 using UlsterQuizSystem;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
@@ -65,7 +66,56 @@ public class UserTests
     // ==========================================
     // Get/Set Tests
     // ==========================================
+    [TestMethod]
+    public void UserID_ShouldSetCorrectly()
+    {
+        // Arrange
+        int userID = 1;
+        string userUsername = "John";
+        string userPassword = "Doe";
+        string userEmail = "johndoe05@outlook.com";
 
+        // Act
+        _users.Add(new TestUser(userID, userUsername, userPassword, userEmail));
+
+        // Assert
+        Assert.AreEqual(userID, _users[1].ID, "UserID was not set correctly.");
+    }
+
+    [TestMethod]
+    public void UserID_Setter_ShouldBeProtected()
+    {
+        // Arrange
+        PropertyInfo property = typeof(TestUser).GetProperty("ID");
+
+        // Act
+        MethodInfo setter = property.SetMethod;
+
+        // Assert
+        Assert.IsTrue(setter.IsFamily, "UserID setter should be protected.");
+    }
+
+    [TestMethod]
+    public void UserProperties_ShouldSetAndGetValues()
+    {
+        // Arrange
+        string userUsername = "John";
+        string userPassword = "Doe";
+        string userEmail = "johndoe05@outlook.com";
+        UserRole userRole = UserRole.User;
+
+        // Act
+        _users[0].Username = userUsername;
+        _users[0].Password = userPassword;
+        _users[0].Email = userEmail;
+        _users[0].Role = userRole;
+
+        // Assert
+        Assert.AreEqual(userUsername, _users[0].Username, "Username was not set correctly.");
+        Assert.AreEqual(userPassword, _users[0].Password, "Password was not set correctly.");
+        Assert.AreEqual(userEmail, _users[0].Email, "Email was not set correctly.");
+        Assert.AreEqual(userRole, _users[0].Role, "Role was not set correctly.");
+    }
 
     // ==========================================
     // Method Tests

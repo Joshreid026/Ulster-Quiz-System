@@ -1,3 +1,4 @@
+using System.Reflection;
 using UlsterQuizSystem;
 
 namespace QuizSystemTests;
@@ -67,7 +68,57 @@ public class QuestionTests
     // ==========================================
     // Get/Set Tests
     // ==========================================
+    [TestMethod]
+    public void QuestionID_ShouldSetCorrectly()
+    {
+        // Arrange
+        int questionID = 1;
+        string questionText = "What damage does a sword deal?";
+        List<string> questionOptions = new List<string> { "Sting", "Slash", "Sash", "Slab" };
+        string questionCorrectAnswer = "Slash";
+        string questionDifficultyLevel = "Easy";
 
+        // Act
+        _questions.Add(new Question(questionID, questionText, questionOptions, questionCorrectAnswer, questionDifficultyLevel));
+
+        // Assert
+        Assert.AreEqual(questionID, _questions[1].QuestionID, "QuestionID was not set correctly.");
+    }
+
+    [TestMethod]
+    public void QuestionID_Setter_ShouldBePrivate()
+    {
+        // Arrange
+        PropertyInfo property = typeof(Question).GetProperty("QuestionID");
+
+        // Act
+        MethodInfo setter = property.SetMethod;
+
+        // Assert
+        Assert.IsTrue(setter.IsPrivate, "QuestionID setter should be private.");
+    }
+
+    [TestMethod]
+    public void QuestionProperties_ShouldSetAndGetValues()
+    {
+        // Arrange
+        string questionText = "What damage does a sword deal?";
+        List<string> questionOptions = new List<string> { "Sting", "Slash", "Sash", "Slab"} ;
+        string questionCorrectAnswer = "Slash";
+        string questionDifficultyLevel = "Easy";
+
+        // Act
+        _questions[0].QuestionText = questionText;
+        _questions[0].QuestionOptions = questionOptions;
+        _questions[0].QuestionCorrectAnswer = questionCorrectAnswer;
+        _questions[0].QuestionDifficultyLevel = questionDifficultyLevel;
+
+        // Assert
+        Assert.AreEqual(questionText, _questions[0].QuestionText, "QuestionText was not set correctly.");
+        Assert.AreSame(questionOptions, _questions[0].QuestionOptions, "QuestionDifficultyLevel was not set correctly.");
+        Assert.AreEqual(questionCorrectAnswer, _questions[0].QuestionCorrectAnswer, "QuestionCorrectAnswer was not set correctly.");
+        Assert.AreEqual(questionDifficultyLevel, _questions[0].QuestionDifficultyLevel, "QuestionDifficultyLevel was not set correctly.");
+    }
 
     // ==========================================
     // Method Tests

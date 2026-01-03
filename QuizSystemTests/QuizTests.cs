@@ -1,3 +1,4 @@
+using System.Reflection;
 using UlsterQuizSystem;
 
 
@@ -81,6 +82,60 @@ public class QuizTests
     // ==========================================
     // Get/Set Tests
     // ==========================================
+    [TestMethod]
+    public void QuizID_ShouldSetCorrectly()
+    {
+        // Arrange
+        int quizID = 1;
+        string quizTitle = "title";
+        string quizDescription = "description";
+        Category quizCategory = _categories[0];
+        DateTime quizDate = new DateTime(2026, 1, 1);
+
+        // Act
+        _quizzes.Add(new Quiz(quizID, quizTitle, quizDescription, quizCategory, quizDate));
+
+        // Assert
+        Assert.AreEqual(quizID, _quizzes[1].QuizID, "QuizID was not set correctly.");
+    }
+
+    [TestMethod]
+    public void QuizID_Setter_ShouldBeProtected()
+    {
+        // Arrange
+        PropertyInfo property = typeof(Quiz).GetProperty("QuizID");
+
+        // Act
+        MethodInfo setter = property.SetMethod;
+
+        // Assert
+        Assert.IsTrue(setter.IsPrivate, "QuizID setter should be private.");
+    }
+
+    [TestMethod]
+    public void QuizProperties_ShouldSetAndGetValues()
+    {
+        // Arrange
+        string quizTitle = "title";
+        string quizDescription = "description";
+        Category quizCategory = _categories[0];
+        List<Question> quizQuestions = new List<Question>();
+        DateTime quizDate = new DateTime(2026, 1, 1);
+
+        // Act
+        _quizzes[0].QuizTitle = quizTitle;
+        _quizzes[0].QuizDescription = quizDescription;
+        _quizzes[0].QuizCategory = quizCategory;
+        _quizzes[0].QuizQuestions = quizQuestions;
+        _quizzes[0].QuizDate = quizDate;
+
+        // Assert
+        Assert.AreEqual(quizTitle, _quizzes[0].QuizTitle, "QuizTitle was not initialized correctly.");
+        Assert.AreEqual(quizDescription, _quizzes[0].QuizDescription, "QuizDescription was not initialized correctly.");
+        Assert.AreSame(quizCategory, _quizzes[0].QuizCategory, "QuizCategory was not initialized correctly.");
+        Assert.AreSame(quizQuestions, _quizzes[0].QuizQuestions, "QuizQuestions was not initialized correctly.");
+        Assert.AreEqual(quizDate, _quizzes[0].QuizDate, "QuizDate was not initialized correctly.");
+    }
 
 
     // ==========================================

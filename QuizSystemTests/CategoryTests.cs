@@ -1,3 +1,4 @@
+using System.Reflection;
 using UlsterQuizSystem;
 
 namespace QuizSystemTests;
@@ -55,7 +56,49 @@ public class CategoryTests
     // ==========================================
     // Get/Set Tests
     // ==========================================
+    [TestMethod]
+    public void CategoryID_ShouldSetCorrectly()
+    {
+        // Arrange
+        int categoryID = 1;
+        string categoryName = "Default";
+        string categoryDescription = "Default Description";
 
+        // Act
+        _category.Add(new Category(categoryID, categoryName, categoryDescription));
+
+        // Assert
+        Assert.AreEqual(categoryID, _category[1].CategoryID, "CategoryID was not set correctly.");
+    }
+
+    [TestMethod]
+    public void CategoryID_Setter_ShouldBePrivate()
+    {
+        // Arrange
+        PropertyInfo property = typeof(Category).GetProperty("CategoryID");
+
+        // Act
+        MethodInfo setter = property.SetMethod;
+
+        // Assert
+        Assert.IsTrue(setter.IsPrivate, "CategoryID setter should be private.");
+    }
+
+    [TestMethod]
+    public void CategoryProperties_ShouldSetAndGetValues()
+    {
+        // Arrange
+        string categoryName = "Defaulted";
+        string categoryDescription = "Defaulted Description";
+
+        // Act
+        _category[0].CategoryName = categoryName;
+        _category[0].CategoryDescription = categoryDescription;
+
+        // Assert
+        Assert.AreEqual(categoryName, _category[0].CategoryName, "CategoryName was not set correctly.");
+        Assert.AreEqual(categoryDescription, _category[0].CategoryDescription, "CategoryDescription was not set correctly.");
+    }
 
     // ==========================================
     // Method Tests
