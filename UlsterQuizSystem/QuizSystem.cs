@@ -79,8 +79,9 @@ namespace UlsterQuizSystem
             Console.Clear();
             Console.WriteLine("--- Student Login ---");
             Console.Write("Username: "); string username = Console.ReadLine();
+            Console.Write("Password: "); string password = Console.ReadLine();
 
-            Student student = _students.Find(s => s.Username == username);
+            Student student = _students.Find(s => s.Username == username && s.Password == password);
 
             if (student != null)
             {
