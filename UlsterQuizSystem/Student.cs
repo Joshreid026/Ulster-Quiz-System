@@ -118,6 +118,11 @@ namespace UlsterQuizSystem
             Console.WriteLine($"You scored {score} out of {quiz.QuizQuestions.Count}");
         }
 
+        public override void Logout()
+        {
+            Console.WriteLine($"\nUser {Username} logged out.");
+        }
+
         public override string ToString()
         {
             return base.ToString() + $" | Status: {Status}";
