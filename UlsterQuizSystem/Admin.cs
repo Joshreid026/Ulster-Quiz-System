@@ -484,10 +484,17 @@ namespace UlsterQuizSystem
             {
                 using (System.IO.StreamWriter sw = new System.IO.StreamWriter("questions.csv"))
                 {
-                    sw.WriteLine("QuizID,QuizTitle,QuestionID,QuestionText,Answer");
+                    sw.WriteLine("QuizID,QuizTitle,QuestionID,QuestionText,Answer,Options");
+
                     foreach (var q in quizzes)
+                    {
                         foreach (var quest in q.QuizQuestions)
-                            sw.WriteLine($"{q.QuizID},{q.QuizTitle},{quest.QuestionID},{quest.QuestionText},{quest.QuestionCorrectAnswer}");
+                        {
+                            string optionsString = string.Join("|", quest.QuestionOptions);
+
+                            sw.WriteLine($"{q.QuizID},{q.QuizTitle},{quest.QuestionID},{quest.QuestionText},{quest.QuestionCorrectAnswer},{optionsString}");
+                        }
+                    }
                 }
                 Console.WriteLine("Saved to questions.csv");
             }
