@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,22 @@ namespace UlsterQuizSystem
         public List<Quiz> Quizzes { get; private set; }
         public List<Category> Categories { get; private set; }
 
+        // Default Constructor
         public QuizSystemData()
         {
             Admins = new List<Admin>();
             Students = new List<Student>();
             Quizzes = new List<Quiz>();
             Categories = new List<Category>();
+        }
+
+        // Parameterized Constructor
+        public QuizSystemData(List<Admin> admins, List<Student> students, List<Quiz> quizzes, List<Category> categories)
+        {
+            Admins = admins;
+            Students = students;
+            Quizzes = quizzes;
+            Categories = categories;
         }
 
         // ==========================================

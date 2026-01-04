@@ -25,7 +25,7 @@ public class UserTests
     // Constructor Tests
     // ==========================================
     [TestMethod]
-    public void UserDefaultConstructor_SetsExpectedDefaults()
+    public void UserDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
         int userID = 0;
@@ -43,7 +43,7 @@ public class UserTests
     }
 
     [TestMethod]
-    public void UserParameterizedConstructor_SetsProvidedValues()
+    public void UserParameterizedConstructor_ShouldInitialiseProperties()
     {
         // Arrange
         int userID = 1;
