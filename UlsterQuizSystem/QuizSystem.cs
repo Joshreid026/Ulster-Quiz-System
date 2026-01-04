@@ -167,9 +167,6 @@ namespace UlsterQuizSystem
             _quizzes.Add(quiz5);
             _quizzes.Add(quiz6);
             _quizzes.Add(quiz7);
-
-
-
         }
     }
 }

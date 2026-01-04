@@ -10,8 +10,10 @@ namespace UlsterQuizSystem
     public enum UserRole
     {
         Admin,
+        User,
         Student
     }
+
     public abstract class User
     {
         // ===================================================================
@@ -23,15 +25,16 @@ namespace UlsterQuizSystem
         public string Email { get; set; }
         public UserRole Role { get; set; }
 
+        // Default Constructor
         public User()
         {
-            ID = 0;
             Username = "default";
             Password = "password";
             Email = "email@mail.com";
-            Role = UserRole.Student;
+            Role = UserRole.User;
         }
 
+        // Parameterized Constructor
         public User(int id, string username, string password, string email, UserRole role)
         {
             ID = id;

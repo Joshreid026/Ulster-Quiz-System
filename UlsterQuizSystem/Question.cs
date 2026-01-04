@@ -14,6 +14,7 @@ namespace UlsterQuizSystem
         public string QuestionCorrectAnswer { get; set; }
         public string QuestionDifficultyLevel { get; set; }
 
+        // Default Constructor
         public Question()
         {
             QuestionID = 0;
@@ -22,7 +23,8 @@ namespace UlsterQuizSystem
             QuestionCorrectAnswer = "";
             QuestionDifficultyLevel = "";
         }
-        // parameterized constructor
+    
+        // Parameterized Constructor
         public Question(int id, string text, List<string> options, string ans, string diff)
         {
             QuestionID = id;
