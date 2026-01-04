@@ -159,12 +159,6 @@ namespace UlsterQuizSystem
             var quiz7 = new Quiz(7, "Computer Networks", "Protocols, IP addressing, routing, and network layers.", cat7, new DateTime(2025, 09, 13));
 
             quiz1.QuizQuestions = questions;
-            quiz2.QuizQuestions = questions;
-            quiz3.QuizQuestions = questions;
-            quiz4.QuizQuestions = questions;
-            quiz5.QuizQuestions = questions;
-            quiz6.QuizQuestions = questions;
-            quiz7.QuizQuestions = questions;
 
             _quizzes.Add(quiz1);
             _quizzes.Add(quiz2);
