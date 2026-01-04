@@ -23,7 +23,7 @@ namespace UlsterQuizSystem
             QuizDescription = "";
             QuizCategory = new Category();
             QuizQuestions = new List<Question>();
-            QuizDate = DateTime.Now;
+            QuizDate = DateTime.MinValue;
         }
 
         // Parameterized Constructor

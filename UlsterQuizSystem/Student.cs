@@ -27,7 +27,7 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Entry point for student menu
+        // Entry point for Student Menu
         // ==========================================
         public void DisplayStudentMenu(List<Quiz> quizzes, List<Category> categories)
         {

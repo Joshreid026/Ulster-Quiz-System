@@ -63,7 +63,7 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Manage users methods
+        // Manage Users Methods
         // ==========================================
 
         private void ManageUsers(List<Student> students, List<Admin> admins)
@@ -172,7 +172,7 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Manage quizzes and questions methods
+        // Manage Quizzes and Questions Methods
         // ==========================================
         private void ManageQuizzesAndQuestions(List<Quiz> quizzes, List<Category> categories)
         {
@@ -368,7 +368,7 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Manage categories methods
+        // Manage Categories Methods
         // ==========================================
         private void ManageCategories(List<Category> categories, List<Quiz> quizzes)
         {
@@ -406,7 +406,7 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Reports for displaying all data methods
+        // Reports for displaying all Data Methods
         // ==========================================
         private void ViewSystemDataMenu(List<Quiz> quizzes, List<Category> categories, List<Student> students, List<Admin> admins)
         {
@@ -475,7 +475,7 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Export quizzes and questions to CSV method
+        // Export Quizzes and Questions to CSV Method
         // ==========================================
 
         private void SaveToCSV(List<Quiz> quizzes)
