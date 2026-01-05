@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace UlsterQuizSystem
 {
@@ -410,7 +412,7 @@ namespace UlsterQuizSystem
         // ==========================================
         // Manage Categories Methods
         // ==========================================
-        private void ManageCategories(List<Category> categories, List<Quiz> quizzes)
+        public void ManageCategories(List<Category> categories, List<Quiz> quizzes)
         {
             Console.Clear();
             Console.WriteLine("--- Manage Categories ---");
@@ -424,7 +426,7 @@ namespace UlsterQuizSystem
                 case "1":
                     Console.Write("Name: "); string name = Console.ReadLine();
                     Console.Write("Desc: "); string desc = Console.ReadLine();
-                    categories.Add(new Category(name, desc));
+                    Admin.AddCategory(categories, name, desc);
                     Console.WriteLine("Category Added.");
                     break;
                 case "2":
@@ -435,8 +437,8 @@ namespace UlsterQuizSystem
                             Console.WriteLine("Cannot delete: Category in use.");
                         else
                         {
-                            categories.RemoveAll(c => c.CategoryID == cid);
-                            Console.WriteLine("Deleted.");
+                            string result = Admin.RemoveCategory(categories, cid);
+                            Console.WriteLine(result);
                         }
                     }
                     break;
@@ -449,14 +451,15 @@ namespace UlsterQuizSystem
             Console.ReadKey();
         }
 
-        private void AddCategoryUI(List<Category> categories)
+        public static void AddCategory(List<Category> categories, string name, string desc)
         {
-
+            categories.Add(new Category(name, desc));
         }
 
-        private void RemoveCategoryUI(List<Category> categories, List<Quiz> quizzes)
+        public static string RemoveCategory(List<Category> categories, int cid)
         {
-
+            int removed = categories.RemoveAll(c => c.CategoryID == cid);
+            return removed > 0 ? "Deleted." : "ID not found.";
         }
 
         // ==========================================

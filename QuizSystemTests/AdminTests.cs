@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Numerics;
 using System.Reflection;
@@ -15,6 +16,7 @@ public class AdminTests
     // ==========================================
     private List<Admin> admins;
     private List<Student> students;
+    private List<Category> categories;
 
     [TestInitialize]
     public void Setup()
@@ -25,6 +27,9 @@ public class AdminTests
 
         Student.ResetStudentNextIDCounter();
         students = new List<Student>();
+
+        Category.ResetCategoryNextIDCounter();
+        categories = new List<Category>();
     }
 
     // ==========================================
@@ -265,6 +270,57 @@ public class AdminTests
         // Assert
         Assert.AreEqual(1, students.Count, "RemoveStudent removed a student when ID doesn't exist.");
         Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveStudent does not output the expected string.");
+    }
+
+    [TestMethod]
+    public void AddCategory_ShouldAddCategoryCorrectly()
+    {
+        // Arrange
+        QuizSystemData systemData = new QuizSystemData();
+        string categoryName = "Default";
+        string categoryDescription = "Default Description";
+
+        // Act
+        Admin.AddCategory(systemData.Categories, categoryName, categoryDescription);
+
+        // Assert
+        Assert.AreEqual(1, systemData.Categories.Count, "AddAdmin did not increase list size.");
+        Assert.AreEqual(categoryName, systemData.Categories[0].CategoryName, "AddAdmin added incorrect category name.");
+        Assert.AreEqual(categoryDescription, systemData.Categories[0].CategoryDescription, "AddAdmin added incorrect category description.");
+    }
+
+    [TestMethod]
+    public void RemoveCategory_ShouldRemoveCategory_WhenIDExists()
+    {
+        // Arrange
+        categories.AddRange(new[]
+        {
+            new Category("Programming", "Concepts of object-oriented programming and coding principles"),
+            new Category("Data Structures", "Arrays, lists, stacks, queues, trees, and their applications"),
+        });
+        string expectedMethodOutput = "Deleted.";
+
+        // Act
+        string actualMethodOutput = Admin.RemoveCategory(categories, 1);
+
+        // Assert
+        Assert.AreEqual(1, categories.Count, "RemoveCategory failed to remove a category when ID exists.");
+        Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveCategory does not output the expected string.");
+    }
+
+    [TestMethod]
+    public void RemoveCategory_ShouldReturnMessage_WhenIDDoesNotExist()
+    {
+        // Arrange
+        categories.Add(new Category("Programming", "Concepts of object-oriented programming and coding principles"));
+        string expectedMethodOutput = "ID not found.";
+
+        // Act
+        string actualMethodOutput = Admin.RemoveCategory(categories, 99);
+
+        // Assert
+        Assert.AreEqual(1, categories.Count, "RemoveCategory removed a category when ID doesn't exist.");
+        Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveCategory does not output the expected string.");
     }
 
     [TestMethod]
