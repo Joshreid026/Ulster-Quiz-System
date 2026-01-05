@@ -10,14 +10,14 @@ public class StudentTests
     // ==========================================
     // Test Initialization + Fields
     // ==========================================
-    private List<Student> _students;
+    private List<Student> students;
 
     [TestInitialize]
     public void Setup()
     {
         // Required Sample Data
-        _students = new List<Student>();
-        _students.Add(new Student());
+        Student.ResetStudentNextIDCounter();
+        students = new List<Student>();
     }
 
     // ==========================================
@@ -27,27 +27,30 @@ public class StudentTests
     public void StudentDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int studentID = 101;
+        int studentID = 1;
         string studentUsername = "default";
         string studentPassword = "password";
         string studentEmail = "email@mail.com";
         UserRole studentRole = UserRole.Student;
         string studentStatus = "active";
 
+        // Act
+        students.Add(new Student());
+
         // Assert
-        Assert.AreEqual(studentID, _students[0].ID, "ID was not initialized correctly.");
-        Assert.AreEqual(studentUsername, _students[0].Username, "Username was not initialized correctly.");
-        Assert.AreEqual(studentPassword, _students[0].Password, "Password was not initialized correctly.");
-        Assert.AreEqual(studentEmail, _students[0].Email, "Email was not initialized correctly.");
-        Assert.AreEqual(studentRole, _students[0].Role, "Role was not initialized correctly.");
-        Assert.AreEqual(studentStatus, _students[0].Status, "Status was not initialized correctly.");
+        Assert.AreEqual(studentID, students[0].StudentID, "ID was not initialized correctly.");
+        Assert.AreEqual(studentUsername, students[0].Username, "Username was not initialized correctly.");
+        Assert.AreEqual(studentPassword, students[0].Password, "Password was not initialized correctly.");
+        Assert.AreEqual(studentEmail, students[0].Email, "Email was not initialized correctly.");
+        Assert.AreEqual(studentRole, students[0].Role, "Role was not initialized correctly.");
+        Assert.AreEqual(studentStatus, students[0].Status, "Status was not initialized correctly.");
     }
 
     [TestMethod]
     public void StudentParameterisedConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int studentID = 102;
+        int studentID = 1;
         string studentUsername = "John";
         string studentPassword = "Doe";
         string studentEmail = "johndoe05@outlook.com";
@@ -55,15 +58,15 @@ public class StudentTests
         string studentStatus = "active";
 
         // Act
-        _students.Add(new Student(studentID, studentUsername, studentPassword, studentEmail, "active"));
+        students.Add(new Student(studentUsername, studentPassword, studentEmail, "active"));
 
         // Assert
-        Assert.AreEqual(studentID, _students[1].ID, "ID was not initialized correctly.");
-        Assert.AreEqual(studentUsername, _students[1].Username, "Username was not initialized correctly.");
-        Assert.AreEqual(studentPassword, _students[1].Password, "Password was not initialized correctly.");
-        Assert.AreEqual(studentEmail, _students[1].Email, "Email was not initialized correctly.");
-        Assert.AreEqual(studentRole, _students[1].Role, "Role was not initialized correctly.");
-        Assert.AreEqual(studentStatus, _students[1].Status, "Status was not initialized correctly.");
+        Assert.AreEqual(studentID, students[0].StudentID, "ID was not initialized correctly.");
+        Assert.AreEqual(studentUsername, students[0].Username, "Username was not initialized correctly.");
+        Assert.AreEqual(studentPassword, students[0].Password, "Password was not initialized correctly.");
+        Assert.AreEqual(studentEmail, students[0].Email, "Email was not initialized correctly.");
+        Assert.AreEqual(studentRole, students[0].Role, "Role was not initialized correctly.");
+        Assert.AreEqual(studentStatus, students[0].Status, "Status was not initialized correctly.");
     }
 
     // ==========================================
@@ -80,17 +83,17 @@ public class StudentTests
         string studentStatus = "active";
 
         // Act
-        _students.Add(new Student(studentID, studentUsername, studentPassword, studentEmail, studentStatus));
+        students.Add(new Student(studentUsername, studentPassword, studentEmail, studentStatus));
 
         // Assert
-        Assert.AreEqual(studentID, _students[1].ID, "StudentID was not set correctly.");
+        Assert.AreEqual(studentID, students[0].StudentID, "StudentID was not set correctly.");
     }
 
     [TestMethod]
     public void StudentID_Setter_ShouldBeProtected()
     {
         // Arrange
-        PropertyInfo property = typeof(Student).GetProperty("ID");
+        PropertyInfo property = typeof(Student).GetProperty("StudentID");
 
         // Act
         MethodInfo setter = property.SetMethod;
@@ -110,21 +113,40 @@ public class StudentTests
         string studentStatus = "inactive";
 
         // Act
-        _students[0].Username = studentUsername;
-        _students[0].Password = studentPassword;
-        _students[0].Email = studentEmail;
-        _students[0].Role = studentRole;
-        _students[0].Status = studentStatus;
+        students.Add(new Student());
+
+        students[0].Username = studentUsername;
+        students[0].Password = studentPassword;
+        students[0].Email = studentEmail;
+        students[0].Role = studentRole;
+        students[0].Status = studentStatus;
 
         // Assert
-        Assert.AreEqual(studentUsername, _students[0].Username, "Username was not set correctly.");
-        Assert.AreEqual(studentPassword, _students[0].Password, "Password was not set correctly.");
-        Assert.AreEqual(studentEmail, _students[0].Email, "Email was not set correctly.");
-        Assert.AreEqual(studentRole, _students[0].Role, "Role was not set correctly.");
-        Assert.AreEqual(studentStatus, _students[0].Status, "Status was not set correctly.");
+        Assert.AreEqual(studentUsername, students[0].Username, "Username was not set correctly.");
+        Assert.AreEqual(studentPassword, students[0].Password, "Password was not set correctly.");
+        Assert.AreEqual(studentEmail, students[0].Email, "Email was not set correctly.");
+        Assert.AreEqual(studentRole, students[0].Role, "Role was not set correctly.");
+        Assert.AreEqual(studentStatus, students[0].Status, "Status was not set correctly.");
     }
 
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void ResetStudentNextIDCounter_ShouldResetAdminIdToOne()
+    {
+        // Arrange
+        students.AddRange(new[]
+        {
+            new Student("student", "student123", "student@ulster.ac.uk", "active"),
+            new Student("studented", "student123456", "studented@ulster.ac.uk", "active")
+        });
+
+        // Act
+        Student.ResetStudentNextIDCounter();
+        students.Add(new Student("studenteded", "student123456789", "studenteded@ulster.ac.uk", "active"));
+
+        // Assert
+        Assert.AreEqual(1, students[2].StudentID, "ResetStudentNextIDCounter did not reset StudentID.");
+    }
 }

@@ -13,7 +13,6 @@ namespace UlsterQuizSystem
         // ==========================================
         // Central Data Store
         // ==========================================
-
         private QuizSystemData systemData;
 
         public QuizSystem()
@@ -23,9 +22,8 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Setup initial data and main loop
+        // Setup Initial Data and Main Loop
         // ==========================================
-
         public void Run()
         {
             bool running = true;
@@ -40,14 +38,14 @@ namespace UlsterQuizSystem
 
                 switch (Console.ReadLine())
                 {
-                    case "1": PerformAdminLogin(systemData); break;
-                    case "2": PerformStudentLogin(systemData); break;
+                    case "1": PerformAdminLogin(); break;
+                    case "2": PerformStudentLogin(); break;
                     case "3": running = false; break;
                 }
             }
         }
 
-        private void PerformAdminLogin(QuizSystemData systemData)
+        private void PerformAdminLogin()
         {
             Console.Clear();
             Console.WriteLine("--- Admin Login ---");
@@ -58,7 +56,7 @@ namespace UlsterQuizSystem
 
             if (admin != null)
             {
-                admin.DisplayDashboard(systemData.Quizzes, systemData.Categories, systemData.Students, systemData.Admins);
+                admin.DisplayAdminDashboard(systemData, admin);
             }
             else
             {
@@ -67,7 +65,7 @@ namespace UlsterQuizSystem
             }
         }
 
-        private void PerformStudentLogin(QuizSystemData systemData)
+        private void PerformStudentLogin()
         {
             Console.Clear();
             Console.WriteLine("--- Student Login ---");
@@ -80,7 +78,7 @@ namespace UlsterQuizSystem
             {
                 if (student.Status.ToLower() == "active")
                 {
-                    student.DisplayStudentMenu(systemData.Quizzes, systemData.Categories);
+                    student.DisplayStudentDashboard(systemData, student);
                 }
                 else
                 {

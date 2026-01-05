@@ -14,12 +14,12 @@ namespace QuizSystemTests
         public TestUser()
             : base()
         {
-            ID = 0;
+
         }
 
         // Parameterized Constructor
-        public TestUser(int id, string username, string password, string email)
-            : base(id, username, password, email, UserRole.User)
+        public TestUser(string username, string password, string email)
+            : base(username, password, email, UserRole.User)
         {
 
         }

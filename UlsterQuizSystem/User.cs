@@ -17,13 +17,13 @@ namespace UlsterQuizSystem
     public abstract class User
     {
         // ===================================================================
-        // Protected Setters for ID/Role ensure they aren't changed externally
+        // Protected Setters for Role ensure they aren't changed externally
         // ===================================================================
-        public int ID { get; protected set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         public UserRole Role { get; set; }
+        protected static int nextID = 1;
 
         // Default Constructor
         public User()
@@ -35,9 +35,8 @@ namespace UlsterQuizSystem
         }
 
         // Parameterized Constructor
-        public User(int id, string username, string password, string email, UserRole role)
+        public User(string username, string password, string email, UserRole role)
         {
-            ID = id;
             Username = username;
             Password = password;
             Email = email;
@@ -54,7 +53,7 @@ namespace UlsterQuizSystem
 
         public override string ToString()
         {
-            return $"ID: {ID} | User: {Username} | Role: {Role}";
+            return $"User: {Username} | Role: {Role}";
         }
     }
 }

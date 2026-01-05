@@ -8,33 +8,47 @@ namespace UlsterQuizSystem
 {
     public class Quiz
     {
+        // ==========================================
+        // Fields, Properties, Get/Sets, Constructors
+        // ==========================================
         public int QuizID { get; private set; }
         public string QuizTitle { get; set; }
         public string QuizDescription { get; set; }
         public Category QuizCategory { get; set; }
         public List<Question> QuizQuestions { get; set; }
         public DateTime QuizDate { get; set; }
+        private static int quizNextID = 1;
 
         // Default Constructor
         public Quiz()
         {
-            QuizID = 0;
+            QuizID = quizNextID;
             QuizTitle = "";
             QuizDescription = "";
             QuizCategory = new Category();
             QuizQuestions = new List<Question>();
             QuizDate = DateTime.MinValue;
+            quizNextID++;
         }
 
         // Parameterized Constructor
-        public Quiz(int id, string title, string desc, Category cat, DateTime date)
+        public Quiz(string title, string desc, Category cat, DateTime date)
         {
-            QuizID = id;
+            QuizID = quizNextID;
             QuizTitle = title;
             QuizDescription = desc;
             QuizCategory = cat;
             QuizDate = date;
             QuizQuestions = new List<Question>();
+            quizNextID++;
+        }
+
+        // ==========================================
+        // Method to Reset ID Counter
+        // ==========================================
+        public static void ResetQuizNextIDCounter()
+        {
+            quizNextID = 1;
         }
     }
 }

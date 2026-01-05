@@ -10,18 +10,19 @@ public class QuizTests
     // ==========================================
     // Test Initialization + Fields
     // ==========================================
-    private List<Category> _categories;
-    private List<Quiz> _quizzes;
+    private List<Category> categories;
+    private List<Quiz> quizzes;
 
     [TestInitialize]
     public void Setup()
     {
         // Required Sample Data
-        _categories = new List<Category>();
-        _quizzes = new List<Quiz>();
+        Quiz.ResetQuizNextIDCounter();
 
-        _categories.Add(new Category());
-        _quizzes.Add(new Quiz());
+        categories = new List<Category>();
+        quizzes = new List<Quiz>();
+
+        categories.Add(new Category());
     }
 
     // ==========================================
@@ -31,25 +32,28 @@ public class QuizTests
     public void QuizDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int quizID = 0;
+        int quizID = 1;
         string quizTitle = "";
         string quizDescription = "";
-        Category quizCategory = _categories[0];
+        Category quizCategory = categories[0];
         List<Question> quizQuestions = new List<Question>();
         DateTime quizDate = DateTime.MinValue;
 
+        // Act
+        quizzes.Add(new Quiz());
+
         // Assert (Value Types)
-        Assert.AreEqual(quizID, _quizzes[0].QuizID, "QuizID was not initialized correctly.");
-        Assert.AreEqual(quizTitle, _quizzes[0].QuizTitle, "QuizTitle was not initialized correctly.");
-        Assert.AreEqual(quizDescription, _quizzes[0].QuizDescription, "QuizDescription was not initialized correctly.");
-        Assert.AreEqual(quizDate, _quizzes[0].QuizDate, "QuizDate was not initialized correctly.");
+        Assert.AreEqual(quizID, quizzes[0].QuizID, "QuizID was not initialized correctly.");
+        Assert.AreEqual(quizTitle, quizzes[0].QuizTitle, "QuizTitle was not initialized correctly.");
+        Assert.AreEqual(quizDescription, quizzes[0].QuizDescription, "QuizDescription was not initialized correctly.");
+        Assert.AreEqual(quizDate, quizzes[0].QuizDate, "QuizDate was not initialized correctly.");
 
         // Assert (Reference Types)
-        Assert.IsNotNull(_quizzes[0].QuizCategory, "QuizCategory should not be null.");
-        Assert.IsInstanceOfType(_quizzes[0].QuizCategory, typeof(Category), "QuizCategory is not of the right instance type.");
+        Assert.IsNotNull(quizzes[0].QuizCategory, "QuizCategory should not be null.");
+        Assert.IsInstanceOfType(quizzes[0].QuizCategory, typeof(Category), "QuizCategory is not of the right instance type.");
 
-        Assert.IsNotNull(_quizzes[0].QuizQuestions, "QuizQuestions should not be null.");
-        Assert.AreEqual(0, _quizzes[0].QuizQuestions.Count(), "QuizQuestions should start empty.");
+        Assert.IsNotNull(quizzes[0].QuizQuestions, "QuizQuestions should not be null.");
+        Assert.AreEqual(0, quizzes[0].QuizQuestions.Count(), "QuizQuestions should start empty.");
     }
 
     [TestMethod]
@@ -59,24 +63,24 @@ public class QuizTests
         int quizID = 1;
         string quizTitle = "title";
         string quizDescription = "description";
-        Category quizCategory = _categories[0];
+        Category quizCategory = categories[0];
         List<Question> quizQuestions = new List<Question>();
         DateTime quizDate = new DateTime(2026, 1, 1);
 
         // Act
-        _quizzes.Add(new Quiz(quizID, quizTitle, quizDescription, _categories[0], new DateTime(2026, 1, 1)));
+        quizzes.Add(new Quiz(quizTitle, quizDescription, categories[0], new DateTime(2026, 1, 1)));
 
         // Assert (Value Types)
-        Assert.AreEqual(quizID, _quizzes[1].QuizID, "QuizID was not initialized correctly.");
-        Assert.AreEqual(quizTitle, _quizzes[1].QuizTitle, "QuizTitle was not initialized correctly.");
-        Assert.AreEqual(quizDescription, _quizzes[1].QuizDescription, "QuizDescription was not initialized correctly.");
-        Assert.AreSame(quizCategory, _quizzes[1].QuizCategory, "QuizCategory was not initialized correctly.");
-        Assert.AreEqual(quizDate, _quizzes[1].QuizDate, "QuizDate was not initialized correctly.");
+        Assert.AreEqual(quizID, quizzes[0].QuizID, "QuizID was not initialized correctly.");
+        Assert.AreEqual(quizTitle, quizzes[0].QuizTitle, "QuizTitle was not initialized correctly.");
+        Assert.AreEqual(quizDescription, quizzes[0].QuizDescription, "QuizDescription was not initialized correctly.");
+        Assert.AreSame(quizCategory, quizzes[0].QuizCategory, "QuizCategory was not initialized correctly.");
+        Assert.AreEqual(quizDate, quizzes[0].QuizDate, "QuizDate was not initialized correctly.");
 
         // Assert (Reference Types)
-        Assert.IsNotNull(_quizzes[1].QuizQuestions, "QuizQuestions should not be null.");
-        Assert.IsInstanceOfType(_quizzes[1].QuizQuestions, typeof(List<Question>), "QuizQuestions is not of the right instance type.");
-        Assert.AreEqual(0, _quizzes[1].QuizQuestions.Count(), "QuizQuestions should start empty.");
+        Assert.IsNotNull(quizzes[0].QuizQuestions, "QuizQuestions should not be null.");
+        Assert.IsInstanceOfType(quizzes[0].QuizQuestions, typeof(List<Question>), "QuizQuestions is not of the right instance type.");
+        Assert.AreEqual(0, quizzes[0].QuizQuestions.Count(), "QuizQuestions should start empty.");
     }
 
     // ==========================================
@@ -89,14 +93,14 @@ public class QuizTests
         int quizID = 1;
         string quizTitle = "title";
         string quizDescription = "description";
-        Category quizCategory = _categories[0];
+        Category quizCategory = categories[0];
         DateTime quizDate = new DateTime(2026, 1, 1);
 
         // Act
-        _quizzes.Add(new Quiz(quizID, quizTitle, quizDescription, quizCategory, quizDate));
+        quizzes.Add(new Quiz(quizTitle, quizDescription, quizCategory, quizDate));
 
         // Assert
-        Assert.AreEqual(quizID, _quizzes[1].QuizID, "QuizID was not set correctly.");
+        Assert.AreEqual(quizID, quizzes[0].QuizID, "QuizID was not set correctly.");
     }
 
     [TestMethod]
@@ -118,27 +122,52 @@ public class QuizTests
         // Arrange
         string quizTitle = "title";
         string quizDescription = "description";
-        Category quizCategory = _categories[0];
+        Category quizCategory = categories[0];
         List<Question> quizQuestions = new List<Question>();
         DateTime quizDate = new DateTime(2026, 1, 1);
 
         // Act
-        _quizzes[0].QuizTitle = quizTitle;
-        _quizzes[0].QuizDescription = quizDescription;
-        _quizzes[0].QuizCategory = quizCategory;
-        _quizzes[0].QuizQuestions = quizQuestions;
-        _quizzes[0].QuizDate = quizDate;
+        quizzes.Add(new Quiz());
+
+        quizzes[0].QuizTitle = quizTitle;
+        quizzes[0].QuizDescription = quizDescription;
+        quizzes[0].QuizCategory = quizCategory;
+        quizzes[0].QuizQuestions = quizQuestions;
+        quizzes[0].QuizDate = quizDate;
 
         // Assert
-        Assert.AreEqual(quizTitle, _quizzes[0].QuizTitle, "QuizTitle was not initialized correctly.");
-        Assert.AreEqual(quizDescription, _quizzes[0].QuizDescription, "QuizDescription was not initialized correctly.");
-        Assert.AreSame(quizCategory, _quizzes[0].QuizCategory, "QuizCategory was not initialized correctly.");
-        Assert.AreSame(quizQuestions, _quizzes[0].QuizQuestions, "QuizQuestions was not initialized correctly.");
-        Assert.AreEqual(quizDate, _quizzes[0].QuizDate, "QuizDate was not initialized correctly.");
+        Assert.AreEqual(quizTitle, quizzes[0].QuizTitle, "QuizTitle was not initialized correctly.");
+        Assert.AreEqual(quizDescription, quizzes[0].QuizDescription, "QuizDescription was not initialized correctly.");
+        Assert.AreSame(quizCategory, quizzes[0].QuizCategory, "QuizCategory was not initialized correctly.");
+        Assert.AreSame(quizQuestions, quizzes[0].QuizQuestions, "QuizQuestions was not initialized correctly.");
+        Assert.AreEqual(quizDate, quizzes[0].QuizDate, "QuizDate was not initialized correctly.");
     }
-
 
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void ResetQuizNextIDCounter_ShouldResetAdminIdToOne()
+    {
+        // Arrange
+        categories.AddRange(new[]
+        {
+            new Category("Programming", "Concepts of object-oriented programming and coding principles"),
+            new Category("Data Structures", "Arrays, lists, stacks, queues, trees, and their applications"),
+            new Category("Software Design", "Design patterns, architecture principles, and system modelling"),
+        });
+
+        quizzes.AddRange(new[]
+        {
+            new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)),
+            new Quiz("Data Structures", "Focuses on arrays, lists, stacks, queues, trees, and their applications.", categories[1], new DateTime(2025, 09, 01)),
+        });
+
+        // Act
+        Quiz.ResetQuizNextIDCounter();
+        quizzes.Add(new Quiz("Software Design", "Includes design patterns, architecture principles, and system modelling.", categories[2], new DateTime(2025, 09, 01)));
+
+        // Assert
+        Assert.AreEqual(1, quizzes[2].QuizID, "ResetQuizNextIDCounter did not reset QuizID.");
+    }
 }
