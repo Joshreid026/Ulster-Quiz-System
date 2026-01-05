@@ -121,7 +121,7 @@ namespace UlsterQuizSystem
                     break;
 
                 case "2":
-                    foreach (var s in students) Console.WriteLine($"ID: {s.ID} | {s.Username}");
+                    foreach (var s in students) Console.WriteLine($"ID: {s.StudentID} | {s.Username}");
                     Console.Write("\nEnter Student ID to update: ");
                     if (int.TryParse(Console.ReadLine(), out int sid))
                     {
