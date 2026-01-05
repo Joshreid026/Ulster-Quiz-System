@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,14 +67,14 @@ namespace UlsterQuizSystem
         // ==========================================
         // Manage Users Methods
         // ==========================================
-        private void ManageUsers(List<Student> students, List<Admin> admins)
+        public void ManageUsers(List<Student> students, List<Admin> admins)
         {
             Console.Clear();
             Console.WriteLine("--- Manage Users ---");
             Console.WriteLine("1. Add User");
             Console.WriteLine("2. Update Student Details");
-            Console.WriteLine("3. List All Users");
-            Console.WriteLine("4. Remove User");
+            Console.WriteLine("3. Remove User");
+            Console.WriteLine("4. List All Users");
             Console.Write("Select: ");
             string choice = Console.ReadLine();
 
@@ -88,14 +89,14 @@ namespace UlsterQuizSystem
                     {
                         Console.WriteLine("Invalid role. returning...");
                         Console.ReadKey();
-                    } 
+                    }
                     else if (roleInput == UserRole.Admin)
                     {
                         Console.Write("Username: "); string username = Console.ReadLine();
                         Console.Write("Password: "); string pass = Console.ReadLine();
                         Console.Write("Email Address: "); string email = Console.ReadLine();
 
-                        admins.Add(new Admin(username, pass, email));
+                        AddAdmin(admins, username, pass, email);
                         Console.WriteLine($"Admin '{username}' added successfully.");
                         Console.ReadKey();
                     }
@@ -105,7 +106,7 @@ namespace UlsterQuizSystem
                         Console.Write("Password: "); string pass = Console.ReadLine();
                         Console.Write("Email Address: "); string email = Console.ReadLine();
 
-                        students.Add(new Student(username, pass, email, "active"));
+                        AddStudent(students, username, pass, email);
                         Console.WriteLine($"Student '{username}' added successfully.");
                         Console.ReadKey();
                     }
@@ -115,51 +116,48 @@ namespace UlsterQuizSystem
                     Console.Write("\nEnter Student ID to update: ");
                     if (int.TryParse(Console.ReadLine(), out int sid))
                     {
-                        var s = students.Find(x => x.ID == sid);
-                        if (s != null)
+                        var student = students.Find(s => s.ID == sid);
+                        if (student != null)
                         {
                             Console.WriteLine("\n--- Update Student Details (Leave blank to keep current) ---");
+                            Console.Write($"Username (Current: {student.Username}): "); string username = Console.ReadLine();
+                            Console.Write($"Password (Current: {student.Password}): "); string password = Console.ReadLine();
+                            Console.Write($"Email (Current: {student.Email}): "); string email = Console.ReadLine();
+                            Console.Write($"Status (Current: {student.Status}) [active/inactive]: "); string status = Console.ReadLine();
 
-                            Console.Write($"Username (Current: {s.Username}): ");
-                            string input = Console.ReadLine();
-                            if (!string.IsNullOrWhiteSpace(input)) s.Username = input;
-
-                            Console.Write($"Password (Current: {s.Password}): ");
-                            input = Console.ReadLine();
-                            if (!string.IsNullOrWhiteSpace(input)) s.Password = input;
-
-                            Console.Write($"Email (Current: {s.Email}): ");
-                            input = Console.ReadLine();
-                            if (!string.IsNullOrWhiteSpace(input)) s.Email = input;
-
-                            Console.Write($"Status (Current: {s.Status}) [active/inactive]: ");
-                            input = Console.ReadLine().ToLower();
-                            if (!string.IsNullOrWhiteSpace(input))
-                            {
-                                if (input == "active" || input == "inactive") s.Status = input;
-                                else Console.WriteLine("Invalid status ignored (must be 'active' or 'inactive').");
-                            }
-
-                            Console.WriteLine("Student details updated successfully.");
+                            string result = UpdateStudent(students, sid, username, password, email, status);
+                            Console.WriteLine(result);
                         }
-                        else Console.WriteLine("Student not found.");
+                        else
+                        {
+                            Console.WriteLine("Student not found.");
+                            Console.WriteLine("\nPress any key to return...");
+                            Console.ReadKey();
+                        }
                     }
+                    else
+                    {
+                        Console.WriteLine("Invalid ID");
+                        Console.WriteLine("\nPress any key to return...");
+                        Console.ReadKey();
+                    }
+
                     break;
 
                 case "3":
+                    foreach (var s in students) Console.WriteLine($"ID: {s.ID} | {s.Username}");
+                    Console.Write("\nEnter User ID to remove: ");
+
+                    if (int.TryParse(Console.ReadLine(), out int removeID))
+                    {
+                        string result = RemoveStudent(students, removeID);
+                        Console.WriteLine(result);
+                    }
+                    break;
+                case "4":
                     ViewAllUsers(students, admins);
                     Console.WriteLine("\nPress any key to return...");
                     Console.ReadKey();
-                    break;
-
-                case "4":
-                    foreach (var s in students) Console.WriteLine($"ID: {s.ID} | {s.Username}");
-                    Console.Write("\nEnter User ID to remove: ");
-                    if (int.TryParse(Console.ReadLine(), out int removeId))
-                    {
-                        int removed = students.RemoveAll(s => s.ID == removeId);
-                        Console.WriteLine(removed > 0 ? "Student removed." : "ID not found.");
-                    }
                     break;
                 default:
                     Console.WriteLine("Invalid selection.");
@@ -167,6 +165,46 @@ namespace UlsterQuizSystem
                     Console.ReadKey();
                     return;
             }
+        }
+
+        public static void AddAdmin(List<Admin> admins, string username, string pass, string email)
+        {
+            admins.Add(new Admin(username, pass, email));
+        }
+
+        public static void AddStudent(List<Student> students, string username, string pass, string email)
+        {
+            students.Add(new Student(username, pass, email, "active"));
+        }
+
+        public static string UpdateStudent(List<Student> students, int studentId, string newUsername, string newPassword, string newEmail, string newStatus)
+        {
+            var student = students.Find(s => s.ID == studentId);
+            if (student == null)
+                return "Student not found.";
+
+            if (!string.IsNullOrWhiteSpace(newUsername))
+                student.Username = newUsername;
+            if (!string.IsNullOrWhiteSpace(newPassword))
+                student.Password = newPassword;
+            if (!string.IsNullOrWhiteSpace(newEmail))
+                student.Email = newEmail;
+            if (!string.IsNullOrWhiteSpace(newStatus))
+            {
+                newStatus = newStatus.ToLower();
+                if (newStatus == "active" || newStatus == "inactive")
+                    student.Status = newStatus;
+                else
+                    return "Invalid status ignored (must be 'active' or 'inactive').";
+            }
+
+            return "Student details updated successfully.";
+        }
+
+        public static string RemoveStudent(List<Student> students, int removeID)
+        {
+            int removed = students.RemoveAll(s => s.ID == removeID);
+            return removed > 0 ? "Student removed." : "ID not found.";
         }
 
         // ==========================================
@@ -375,29 +413,44 @@ namespace UlsterQuizSystem
             Console.WriteLine("2. Remove Category");
             string choice = Console.ReadLine();
 
-            if (choice == "1")
+            switch (choice)
             {
-                Console.Write("Name: "); string name = Console.ReadLine();
-                Console.Write("Desc: "); string desc = Console.ReadLine();
-                categories.Add(new Category(name, desc));
-                Console.WriteLine("Category Added.");
-            }
-            else if (choice == "2")
-            {
-                Console.Write("ID to remove: ");
-                if (int.TryParse(Console.ReadLine(), out int cid))
-                {
-                    if (quizzes.Any(q => q.QuizCategory.CategoryID == cid))
-                        Console.WriteLine("Cannot delete: Category in use.");
-                    else
+                case "1":
+                    Console.Write("Name: "); string name = Console.ReadLine();
+                    Console.Write("Desc: "); string desc = Console.ReadLine();
+                    categories.Add(new Category(name, desc));
+                    Console.WriteLine("Category Added.");
+                    break;
+                case "2":
+                    Console.Write("ID to remove: ");
+                    if (int.TryParse(Console.ReadLine(), out int cid))
                     {
-                        categories.RemoveAll(c => c.CategoryID == cid);
-                        Console.WriteLine("Deleted.");
+                        if (quizzes.Any(q => q.QuizCategory.CategoryID == cid))
+                            Console.WriteLine("Cannot delete: Category in use.");
+                        else
+                        {
+                            categories.RemoveAll(c => c.CategoryID == cid);
+                            Console.WriteLine("Deleted.");
+                        }
                     }
-                }
+                    break;
+                default:
+                    Console.WriteLine("Invalid selection.");
+                    break;
             }
+
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
+        }
+
+        private void AddCategoryUI(List<Category> categories)
+        {
+
+        }
+
+        private void RemoveCategoryUI(List<Category> categories, List<Quiz> quizzes)
+        {
+
         }
 
         // ==========================================
