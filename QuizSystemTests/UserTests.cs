@@ -17,7 +17,6 @@ public class UserTests
     public void Setup()
     {
         // Required Sample Data
-        TestUser.ResetNextIDCounter();
         users = new List<TestUser>();
     }
 
@@ -28,7 +27,6 @@ public class UserTests
     public void UserDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int userID = 1;
         string userUsername = "default";
         string userPassword = "password";
         string userEmail = "email@mail.com";
@@ -38,7 +36,6 @@ public class UserTests
         users.Add(new TestUser());
 
         // Assert
-        Assert.AreEqual(userID, users[0].ID, "ID was not initialized correctly.");
         Assert.AreEqual(userUsername, users[0].Username, "Username was not initialized correctly.");
         Assert.AreEqual(userPassword, users[0].Password, "Password was not initialized correctly.");
         Assert.AreEqual(userEmail, users[0].Email, "Email was not initialized correctly.");
@@ -49,7 +46,6 @@ public class UserTests
     public void UserParameterizedConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int userID = 1;
         string userUsername = "John";
         string userPassword = "Doe";
         string userEmail = "johndoe05@outlook.com";
@@ -59,7 +55,6 @@ public class UserTests
         users.Add(new TestUser(userUsername, userPassword, userEmail));
 
         // Assert
-        Assert.AreEqual(userID, users[0].ID, "ID was not initialized correctly.");
         Assert.AreEqual(userUsername, users[0].Username, "Username was not initialized correctly.");
         Assert.AreEqual(userPassword, users[0].Password, "Password was not initialized correctly.");
         Assert.AreEqual(userEmail, users[0].Email, "Email was not initialized correctly.");
@@ -69,35 +64,6 @@ public class UserTests
     // ==========================================
     // Get/Set Tests
     // ==========================================
-    [TestMethod]
-    public void UserID_ShouldSetCorrectly()
-    {
-        // Arrange
-        int userID = 1;
-        string userUsername = "John";
-        string userPassword = "Doe";
-        string userEmail = "johndoe05@outlook.com";
-
-        // Act
-        users.Add(new TestUser(userUsername, userPassword, userEmail));
-
-        // Assert
-        Assert.AreEqual(userID, users[0].ID, "UserID was not set correctly.");
-    }
-
-    [TestMethod]
-    public void UserID_Setter_ShouldBeProtected()
-    {
-        // Arrange
-        PropertyInfo property = typeof(TestUser).GetProperty("ID");
-
-        // Act
-        MethodInfo setter = property.SetMethod;
-
-        // Assert
-        Assert.IsTrue(setter.IsFamily, "UserID setter should be protected.");
-    }
-
     [TestMethod]
     public void UserProperties_ShouldSetAndGetValues()
     {
@@ -150,7 +116,7 @@ public class UserTests
     public void ToStringReturnCorrectMessage()
     {
         // Arrange
-        string expectedReturnValue = "ID: 1 | User: default | Role: User";
+        string expectedReturnValue = "User: default | Role: User";
         users.Add(new TestUser());
 
         // Act

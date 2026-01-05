@@ -11,21 +11,27 @@ namespace UlsterQuizSystem
         // ==========================================
         // Fields, Properties, Get/Sets, Constructors
         // ==========================================
+        public int StudentID { get; protected set; }
         public string Status { get; set; }
+        protected static int studentNextID = 1;
 
         // Default Constructor
         public Student() 
             : base()
         {
+            StudentID = studentNextID;
             Role = UserRole.Student;
             Status = "active";
+            studentNextID++;
         }
 
         // Parameterized Constructor
         public Student(string username, string password, string email, string status)
             : base(username, password, email, UserRole.Student)
         {
+            StudentID = studentNextID;
             Status = status;
+            studentNextID++;
         }
 
         // ==========================================
@@ -123,14 +129,20 @@ namespace UlsterQuizSystem
             Console.WriteLine($"You scored {score} out of {quiz.QuizQuestions.Count}");
         }
 
-        public override void Logout()
-        {
-            Console.WriteLine($"\nUser {Username} logged out.");
-        }
-
+        // ==========================================
+        // Overridden Base User-Class Methods
+        // ==========================================
         public override string ToString()
         {
-            return base.ToString() + $" | Status: {Status}";
+            return $"ID: {StudentID} | " + base.ToString() + $" | Status: {Status}";
+        }
+
+        // ==========================================
+        // Method to Reset ID Counter
+        // ==========================================
+        public static void ResetStudentNextIDCounter()
+        {
+            studentNextID = 1;
         }
     }
 }

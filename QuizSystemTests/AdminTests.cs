@@ -20,10 +20,10 @@ public class AdminTests
     public void Setup()
     {
         // Required Sample Data
-        Admin.ResetNextIDCounter();
+        Admin.ResetAdminNextIDCounter();
         admins = new List<Admin>();
 
-        Student.ResetNextIDCounter();
+        Student.ResetStudentNextIDCounter();
         students = new List<Student>();
     }
 
@@ -45,7 +45,7 @@ public class AdminTests
         admins.Add(new Admin());
 
         // Assert
-        Assert.AreEqual(adminID, admins[0].ID, "ID was not initialized correctly.");
+        Assert.AreEqual(adminID, admins[0].AdminID, "ID was not initialized correctly.");
         Assert.AreEqual(adminUsername, admins[0].Username, "Username was not initialized correctly.");
         Assert.AreEqual(adminPassword, admins[0].Password, "Password was not initialized correctly.");
         Assert.AreEqual(adminEmail, admins[0].Email, "Email was not initialized correctly.");
@@ -68,7 +68,7 @@ public class AdminTests
         admins.Add(new Admin(adminUsername, adminPassword, adminEmail));
 
         // Assert
-        Assert.AreEqual(adminID, admins[0].ID, "ID was not initialized correctly.");
+        Assert.AreEqual(adminID, admins[0].AdminID, "ID was not initialized correctly.");
         Assert.AreEqual(adminUsername, admins[0].Username, "Username was not initialized correctly.");
         Assert.AreEqual(adminPassword, admins[0].Password, "Password was not initialized correctly.");
         Assert.AreEqual(adminEmail, admins[0].Email, "Email was not initialized correctly.");
@@ -92,14 +92,14 @@ public class AdminTests
         admins.Add(new Admin(adminUsername, adminPassword, adminEmail));
 
         // Assert
-        Assert.AreEqual(adminID, admins[0].ID, "AdminID was not set correctly.");
+        Assert.AreEqual(adminID, admins[0].AdminID, "AdminID was not set correctly.");
     }
 
     [TestMethod]
     public void AdminID_Setter_ShouldBeProtected()
     {
         // Arrange
-        PropertyInfo property = typeof(Admin).GetProperty("ID");
+        PropertyInfo property = typeof(Admin).GetProperty("AdminID");
 
         // Act
         MethodInfo setter = property.SetMethod;
@@ -221,7 +221,7 @@ public class AdminTests
     }
 
     [TestMethod]
-    public void UpdateStudent_ShouldReturnNotFound_WhenIdDoesNotExist()
+    public void UpdateStudent_ShouldReturnNotFound_WhenIDDoesNotExist()
     {
         // Arrange
         string expectedMethodOutput = "Student not found.";

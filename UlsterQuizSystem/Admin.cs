@@ -12,21 +12,27 @@ namespace UlsterQuizSystem
         // ==========================================
         // Fields, Properties, Get/Sets, Constructors
         // ==========================================
+        public int AdminID { get; protected set; }
         public DateTime LoginDate { get; set; }
+        protected static int adminNextID = 1;
 
         // Default Constructor
         public Admin() 
             : base()
         {
+            AdminID = adminNextID;
             Role = UserRole.Admin;
             LoginDate = DateTime.MinValue;
+            adminNextID++;
         }
 
         // Parameterized Constructor
         public Admin(string username, string password, string email)
             : base(username, password, email, UserRole.Admin)
         {
+            AdminID = adminNextID;
             LoginDate = DateTime.MinValue;
+            adminNextID++;
         }
 
         // ==========================================
@@ -116,7 +122,7 @@ namespace UlsterQuizSystem
                     Console.Write("\nEnter Student ID to update: ");
                     if (int.TryParse(Console.ReadLine(), out int sid))
                     {
-                        var student = students.Find(s => s.ID == sid);
+                        var student = students.Find(s => s.StudentID == sid);
                         if (student != null)
                         {
                             Console.WriteLine("\n--- Update Student Details (Leave blank to keep current) ---");
@@ -145,7 +151,7 @@ namespace UlsterQuizSystem
                     break;
 
                 case "3":
-                    foreach (var s in students) Console.WriteLine($"ID: {s.ID} | {s.Username}");
+                    foreach (var s in students) Console.WriteLine($"ID: {s.StudentID} | {s.Username}");
                     Console.Write("\nEnter User ID to remove: ");
 
                     if (int.TryParse(Console.ReadLine(), out int removeID))
@@ -179,7 +185,7 @@ namespace UlsterQuizSystem
 
         public static string UpdateStudent(List<Student> students, int studentId, string newUsername, string newPassword, string newEmail, string newStatus)
         {
-            var student = students.Find(s => s.ID == studentId);
+            var student = students.Find(s => s.StudentID == studentId);
             if (student == null)
                 return "Student not found.";
 
@@ -203,7 +209,7 @@ namespace UlsterQuizSystem
 
         public static string RemoveStudent(List<Student> students, int removeID)
         {
-            int removed = students.RemoveAll(s => s.ID == removeID);
+            int removed = students.RemoveAll(s => s.StudentID == removeID);
             return removed > 0 ? "Student removed." : "ID not found.";
         }
 
@@ -498,11 +504,11 @@ namespace UlsterQuizSystem
             if (admins.Any())
             {
                 Console.WriteLine("\n[ADMINS]");
-                foreach (var a in admins) Console.WriteLine($"ID: {a.ID} | User: {a.Username} | Email: {a.Email} | Last Login: {a.LoginDate}");
+                foreach (var a in admins) Console.WriteLine($"ID: {a.AdminID} | User: {a.Username} | Email: {a.Email} | Last Login: {a.LoginDate}");
             }
             Console.WriteLine("\n[STUDENTS]");
             foreach (var s in students)
-                Console.WriteLine($"ID: {s.ID} | User: {s.Username} | Status: {s.Status} | Email: {s.Email}");
+                Console.WriteLine($"ID: {s.StudentID} | User: {s.Username} | Status: {s.Status} | Email: {s.Email}");
         }
 
         private void ViewAllQuizzes(List<Quiz> quizzes)
@@ -547,6 +553,22 @@ namespace UlsterQuizSystem
             }
             catch (Exception ex) { Console.WriteLine($"Error: {ex.Message}"); }
             Console.ReadKey();
+        }
+
+        // ==========================================
+        // Overridden Base User-Class Methods
+        // ==========================================
+        public override string ToString()
+        {
+            return $"ID: {AdminID} | " + base.ToString() + $" | LastLoginDate: {LoginDate}";
+        }
+
+        // ==========================================
+        // Method to Reset ID Counter
+        // ==========================================
+        public static void ResetAdminNextIDCounter()
+        {
+            adminNextID = 1;
         }
     }
 }

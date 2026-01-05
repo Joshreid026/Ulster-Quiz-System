@@ -16,7 +16,7 @@ public class StudentTests
     public void Setup()
     {
         // Required Sample Data
-        Student.ResetNextIDCounter();
+        Student.ResetStudentNextIDCounter();
         students = new List<Student>();
     }
 
@@ -38,7 +38,7 @@ public class StudentTests
         students.Add(new Student());
 
         // Assert
-        Assert.AreEqual(studentID, students[0].ID, "ID was not initialized correctly.");
+        Assert.AreEqual(studentID, students[0].StudentID, "ID was not initialized correctly.");
         Assert.AreEqual(studentUsername, students[0].Username, "Username was not initialized correctly.");
         Assert.AreEqual(studentPassword, students[0].Password, "Password was not initialized correctly.");
         Assert.AreEqual(studentEmail, students[0].Email, "Email was not initialized correctly.");
@@ -61,7 +61,7 @@ public class StudentTests
         students.Add(new Student(studentUsername, studentPassword, studentEmail, "active"));
 
         // Assert
-        Assert.AreEqual(studentID, students[0].ID, "ID was not initialized correctly.");
+        Assert.AreEqual(studentID, students[0].StudentID, "ID was not initialized correctly.");
         Assert.AreEqual(studentUsername, students[0].Username, "Username was not initialized correctly.");
         Assert.AreEqual(studentPassword, students[0].Password, "Password was not initialized correctly.");
         Assert.AreEqual(studentEmail, students[0].Email, "Email was not initialized correctly.");
@@ -86,14 +86,14 @@ public class StudentTests
         students.Add(new Student(studentUsername, studentPassword, studentEmail, studentStatus));
 
         // Assert
-        Assert.AreEqual(studentID, students[0].ID, "StudentID was not set correctly.");
+        Assert.AreEqual(studentID, students[0].StudentID, "StudentID was not set correctly.");
     }
 
     [TestMethod]
     public void StudentID_Setter_ShouldBeProtected()
     {
         // Arrange
-        PropertyInfo property = typeof(Student).GetProperty("ID");
+        PropertyInfo property = typeof(Student).GetProperty("StudentID");
 
         // Act
         MethodInfo setter = property.SetMethod;
