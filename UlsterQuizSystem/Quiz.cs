@@ -44,7 +44,7 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Methods
+        // Method to Reset ID Counter
         // ==========================================
         public static void ResetQuizNextIDCounter()
         {

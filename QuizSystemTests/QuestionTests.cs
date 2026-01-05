@@ -129,4 +129,21 @@ public class QuestionTests
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void ResetQuestionNextIDCounter_ShouldResetAdminIdToOne()
+    {
+        // Arrange
+        questions.AddRange(new[]
+        {
+            new Question("What does OOP stand for? ", new List<string>{"Object-Oriented Programming", "Operational Output Processing", "Open Order Protocol", "Overloaded Operator Procedure"}, "Object-Oriented Programming", "Easy"),
+            new Question("Which of the following is NOT a core principle of OOP?", new List<string>{"Encapsulation", "Polymorphism", "Abstraction", "Compilation"}, "Compilation", "Easy"),
+        });
+
+        // Act
+        Question.ResetQuestionNextIDCounter();
+        questions.Add(new Question("What is encapsulation in object-oriented programming?", new List<string> { "Binding data and methods", "Inheritance", "Overloading", "Creating objects" }, "Binding data and methods", "Medium"));
+
+        // Assert
+        Assert.AreEqual(1, questions[2].QuestionID, "ResetQuestionNextIDCounter did not reset QuestionID.");
+    }
 }

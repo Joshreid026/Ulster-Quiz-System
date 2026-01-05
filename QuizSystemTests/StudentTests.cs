@@ -132,4 +132,21 @@ public class StudentTests
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void ResetStudentNextIDCounter_ShouldResetAdminIdToOne()
+    {
+        // Arrange
+        students.AddRange(new[]
+        {
+            new Student("student", "student123", "student@ulster.ac.uk", "active"),
+            new Student("studented", "student123456", "studented@ulster.ac.uk", "active")
+        });
+
+        // Act
+        Student.ResetStudentNextIDCounter();
+        students.Add(new Student("studenteded", "student123456789", "studenteded@ulster.ac.uk", "active"));
+
+        // Assert
+        Assert.AreEqual(1, students[2].StudentID, "ResetStudentNextIDCounter did not reset StudentID.");
+    }
 }

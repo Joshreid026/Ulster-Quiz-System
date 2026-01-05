@@ -266,4 +266,22 @@ public class AdminTests
         Assert.AreEqual(1, students.Count, "RemoveStudent removed a student when ID doesn't exist.");
         Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveStudent does not output the expected string.");
     }
+
+    [TestMethod]
+    public void ResetAdminNextIDCounter_ShouldResetAdminIdToOne()
+    {
+        // Arrange
+        admins.AddRange(new[]
+        {
+            new Admin("admin", "admin123", "admin@ulster.ac.uk"),
+            new Admin("admined", "admin123456", "admined@ulster.ac.uk")
+        });
+
+        // Act
+        Admin.ResetAdminNextIDCounter();
+        admins.Add(new Admin("admineded", "admin123456789", "admineded@ulster.ac.uk"));
+
+        // Assert
+        Assert.AreEqual(1, admins[2].AdminID, "ResetAdminNextIDCounter did not reset AdminID.");
+    }
 }

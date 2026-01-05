@@ -9,7 +9,7 @@ public class CategoryTests
     // ==========================================
     // Test Initialization + Fields
     // ==========================================
-    private List<Category> category;
+    private List<Category> categories;
 
     [TestInitialize]
     public void Setup()
@@ -17,7 +17,7 @@ public class CategoryTests
         // Required Sample Data
         Category.ResetCategoryNextIDCounter();
 
-        category = new List<Category>();
+        categories = new List<Category>();
     }
 
     // ==========================================
@@ -32,12 +32,12 @@ public class CategoryTests
         string categoryDescription = "Default Description";
 
         // Act
-        category.Add(new Category());
+        categories.Add(new Category());
 
         // Assert
-        Assert.AreEqual(categoryID, category[0].CategoryID, "CategoryID was not initialized correctly.");
-        Assert.AreEqual(categoryName, category[0].CategoryName, "CategoryName was not initialized correctly.");
-        Assert.AreEqual(categoryDescription, category[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
+        Assert.AreEqual(categoryID, categories[0].CategoryID, "CategoryID was not initialized correctly.");
+        Assert.AreEqual(categoryName, categories[0].CategoryName, "CategoryName was not initialized correctly.");
+        Assert.AreEqual(categoryDescription, categories[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
     }
 
     [TestMethod]
@@ -49,12 +49,12 @@ public class CategoryTests
         string categoryDescription = "Default Description";
 
         // Act
-        category.Add(new Category(categoryName, categoryDescription));
+        categories.Add(new Category(categoryName, categoryDescription));
 
         // Assert
-        Assert.AreEqual(categoryID, category[0].CategoryID, "CategoryID was not initialized correctly.");
-        Assert.AreEqual(categoryName, category[0].CategoryName, "CategoryName was not initialized correctly.");
-        Assert.AreEqual(categoryDescription, category[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
+        Assert.AreEqual(categoryID, categories[0].CategoryID, "CategoryID was not initialized correctly.");
+        Assert.AreEqual(categoryName, categories[0].CategoryName, "CategoryName was not initialized correctly.");
+        Assert.AreEqual(categoryDescription, categories[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
     }
 
     // ==========================================
@@ -69,10 +69,10 @@ public class CategoryTests
         string categoryDescription = "Default Description";
 
         // Act
-        category.Add(new Category(categoryName, categoryDescription));
+        categories.Add(new Category(categoryName, categoryDescription));
 
         // Assert
-        Assert.AreEqual(categoryID, category[0].CategoryID, "CategoryID was not set correctly.");
+        Assert.AreEqual(categoryID, categories[0].CategoryID, "CategoryID was not set correctly.");
     }
 
     [TestMethod]
@@ -96,17 +96,34 @@ public class CategoryTests
         string categoryDescription = "Defaulted Description";
 
         // Act
-        category.Add(new Category());
+        categories.Add(new Category());
 
-        category[0].CategoryName = categoryName;
-        category[0].CategoryDescription = categoryDescription;
+        categories[0].CategoryName = categoryName;
+        categories[0].CategoryDescription = categoryDescription;
 
         // Assert
-        Assert.AreEqual(categoryName, category[0].CategoryName, "CategoryName was not set correctly.");
-        Assert.AreEqual(categoryDescription, category[0].CategoryDescription, "CategoryDescription was not set correctly.");
+        Assert.AreEqual(categoryName, categories[0].CategoryName, "CategoryName was not set correctly.");
+        Assert.AreEqual(categoryDescription, categories[0].CategoryDescription, "CategoryDescription was not set correctly.");
     }
 
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void ResetCategoryNextIDCounter_ShouldResetAdminIdToOne()
+    {
+        // Arrange
+        categories.AddRange(new[]
+        {
+            new Category("Programming", "Concepts of object-oriented programming and coding principles"),
+            new Category("Data Structures", "Arrays, lists, stacks, queues, trees, and their applications"),
+        });
+
+        // Act
+        Category.ResetCategoryNextIDCounter();
+        categories.Add(new Category("Software Design", "Design patterns, architecture principles, and system modelling"));
+
+        // Assert
+        Assert.AreEqual(1, categories[2].CategoryID, "ResetCategoryNextIDCounter did not reset CategoryID.");
+    }
 }

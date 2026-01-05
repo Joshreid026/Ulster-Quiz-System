@@ -146,4 +146,28 @@ public class QuizTests
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void ResetQuizNextIDCounter_ShouldResetAdminIdToOne()
+    {
+        // Arrange
+        categories.AddRange(new[]
+        {
+            new Category("Programming", "Concepts of object-oriented programming and coding principles"),
+            new Category("Data Structures", "Arrays, lists, stacks, queues, trees, and their applications"),
+            new Category("Software Design", "Design patterns, architecture principles, and system modelling"),
+        });
+
+        quizzes.AddRange(new[]
+        {
+            new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)),
+            new Quiz("Data Structures", "Focuses on arrays, lists, stacks, queues, trees, and their applications.", categories[1], new DateTime(2025, 09, 01)),
+        });
+
+        // Act
+        Quiz.ResetQuizNextIDCounter();
+        quizzes.Add(new Quiz("Software Design", "Includes design patterns, architecture principles, and system modelling.", categories[2], new DateTime(2025, 09, 01)));
+
+        // Assert
+        Assert.AreEqual(1, quizzes[2].QuizID, "ResetQuizNextIDCounter did not reset QuizID.");
+    }
 }
