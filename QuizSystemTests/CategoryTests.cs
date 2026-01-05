@@ -1,5 +1,6 @@
 using System.Reflection;
 using UlsterQuizSystem;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace QuizSystemTests;
 
@@ -109,6 +110,20 @@ public class CategoryTests
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod()]
+    public void ToStringReturnCorrectMessage()
+    {
+        // Arrange
+        string expectedReturnValue = "ID: 1 | CategoryName: Default | CategoryDescription: Default Description";
+        categories.Add(new Category());
+
+        // Act
+        string actualReturnValue = categories[0].ToString();
+
+        // Assert
+        Assert.AreEqual(expectedReturnValue, actualReturnValue, "Expected return value did not match actual return value.");
+    }
+
     [TestMethod]
     public void ResetCategoryNextIDCounter_ShouldResetAdminIdToOne()
     {

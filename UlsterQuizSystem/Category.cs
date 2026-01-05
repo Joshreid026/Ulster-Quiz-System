@@ -38,7 +38,10 @@ namespace UlsterQuizSystem {
         // Methods
         // ==========================================
         // Defines how Category is displayed
-        public override string ToString() => $"{CategoryID}. {CategoryName} ({CategoryDescription})";
+        public override string ToString()
+        {
+            return $"ID: {CategoryID} | CategoryName: {CategoryName} | CategoryDescription: {CategoryDescription}";
+        }
 
         // ==========================================
         // Method to Reset ID Counter
