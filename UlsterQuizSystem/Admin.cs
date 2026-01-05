@@ -121,6 +121,7 @@ namespace UlsterQuizSystem
                     break;
 
                 case "2":
+                    foreach (var s in students) Console.WriteLine($"ID: {s.ID} | {s.Username}");
                     Console.Write("\nEnter Student ID to update: ");
                     if (int.TryParse(Console.ReadLine(), out int sid))
                     {
@@ -158,8 +159,9 @@ namespace UlsterQuizSystem
 
                     if (int.TryParse(Console.ReadLine(), out int removeID))
                     {
-                        string result = RemoveStudent(students, removeID);
-                        Console.WriteLine(result);
+                        int removed = students.RemoveAll(s => s.ID == removeId);
+                        Console.WriteLine(removed > 0 ? "Student removed." : "ID not found.");
+                        Console.ReadKey();
                     }
                     break;
                 case "4":
