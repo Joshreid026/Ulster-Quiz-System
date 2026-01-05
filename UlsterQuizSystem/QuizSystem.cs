@@ -13,7 +13,6 @@ namespace UlsterQuizSystem
         // ==========================================
         // Central Data Store
         // ==========================================
-
         private QuizSystemData systemData;
 
         public QuizSystem()
@@ -23,9 +22,8 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
-        // Setup initial data and main loop
+        // Setup Initial Data and Main Loop
         // ==========================================
-
         public void Run()
         {
             bool running = true;
@@ -40,14 +38,14 @@ namespace UlsterQuizSystem
 
                 switch (Console.ReadLine())
                 {
-                    case "1": PerformAdminLogin(systemData); break;
-                    case "2": PerformStudentLogin(systemData); break;
+                    case "1": PerformAdminLogin(); break;
+                    case "2": PerformStudentLogin(); break;
                     case "3": running = false; break;
                 }
             }
         }
 
-        private void PerformAdminLogin(QuizSystemData systemData)
+        private void PerformAdminLogin()
         {
             Console.Clear();
             Console.WriteLine("--- Admin Login ---");
@@ -58,7 +56,7 @@ namespace UlsterQuizSystem
 
             if (admin != null)
             {
-                admin.DisplayDashboard(systemData.Quizzes, systemData.Categories, systemData.Students, systemData.Admins);
+                DisplayAdminDashboard(admin);
             }
             else
             {
@@ -67,7 +65,7 @@ namespace UlsterQuizSystem
             }
         }
 
-        private void PerformStudentLogin(QuizSystemData systemData)
+        private void PerformStudentLogin()
         {
             Console.Clear();
             Console.WriteLine("--- Student Login ---");
@@ -80,7 +78,7 @@ namespace UlsterQuizSystem
             {
                 if (student.Status.ToLower() == "active")
                 {
-                    student.DisplayStudentMenu(systemData.Quizzes, systemData.Categories);
+                    DisplayStudentDashboard(student);
                 }
                 else
                 {
@@ -92,6 +90,55 @@ namespace UlsterQuizSystem
             {
                 Console.WriteLine("User not found.");
                 Console.ReadKey();
+            }
+        }
+
+        private void DisplayAdminDashboard(Admin admin)
+        {
+            admin.LoginDate = DateTime.Now;
+            bool active = true;
+
+            while (active)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- ADMIN DASHBOARD ( logged in as: {admin.Username} ) ---");
+                Console.WriteLine($"Last Login: {admin.LoginDate}");
+                Console.WriteLine("1. Manage Quizzes & Questions");
+                Console.WriteLine("2. Manage Users");
+                Console.WriteLine("3. Manage Categories");
+                Console.WriteLine("4. Reports");
+                Console.WriteLine("5. Save Quizzes to CSV");
+                Console.WriteLine("6. Logout");
+                Console.Write("Select: ");
+
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1": admin.ManageQuizzesAndQuestions(systemData.Quizzes, systemData.Categories); break;
+                    case "2": admin.ManageUsers(systemData.Students, systemData.Admins); break;
+                    case "3": admin.ManageCategories(systemData.Categories, systemData.Quizzes); break;
+                    case "4": admin.ViewSystemDataMenu(systemData.Quizzes, systemData.Categories, systemData.Students, systemData.Admins); break;
+                    case "5": admin.SaveToCSV(systemData.Quizzes); break;
+                    case "6": admin.Logout(); active = false; break;
+                    default: Console.WriteLine("Invalid selection."); break;
+                }
+            }
+        }
+
+        public void DisplayStudentDashboard(Student student)
+        {
+            bool active = true;
+            while (active)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- STUDENT MENU ( Logged in as: {student.Username} ) ---");
+                Console.WriteLine("1. Play Quiz (Filter by Category)");
+                Console.WriteLine("2. Logout");
+                Console.Write("Select: ");
+
+                string choice = Console.ReadLine();
+                if (choice == "1") student.FilterAndPlay(systemData.Quizzes, systemData.Categories);
+                else if (choice == "2") { student.Logout(); active = false; }
             }
         }
 
