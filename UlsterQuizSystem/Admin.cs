@@ -159,7 +159,7 @@ namespace UlsterQuizSystem
 
                     if (int.TryParse(Console.ReadLine(), out int removeID))
                     {
-                        int removed = students.RemoveAll(s => s.ID == removeId);
+                        int removed = students.RemoveAll(s => s.StudentID == removeID);
                         Console.WriteLine(removed > 0 ? "Student removed." : "ID not found.");
                         Console.ReadKey();
                     }
