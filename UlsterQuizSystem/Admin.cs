@@ -328,7 +328,7 @@ namespace UlsterQuizSystem
 
                     if (subChoice == "1") AddQuestionToQuizUI(quiz);
                     else if (subChoice == "2") UpdateQuestionInQuiz(quiz);
-                    else if (subChoice == "3") RemoveQuestionFromQuiz(quiz);
+                    else if (subChoice == "3") RemoveQuestionFromQuizUI(quiz);
                 }
                 else Console.WriteLine("Quiz not found.");
             }
@@ -400,15 +400,27 @@ namespace UlsterQuizSystem
             }
         }
 
-        private void RemoveQuestionFromQuiz(Quiz quiz)
+        public void RemoveQuestionFromQuizUI(Quiz quiz)
         {
             foreach (var q in quiz.QuizQuestions) Console.WriteLine($"ID: {q.QuestionID} - {q.QuestionText}");
             Console.Write("Enter ID to remove: ");
             if (int.TryParse(Console.ReadLine(), out int id))
             {
-                int count = quiz.QuizQuestions.RemoveAll(x => x.QuestionID == id);
-                if (count > 0) Console.WriteLine("Question removed.");
-                else Console.WriteLine("ID not found.");
+                string result = RemoveQuestionFromQuiz(quiz, id);
+                Console.WriteLine(result);
+            }
+        }
+
+        public static string RemoveQuestionFromQuiz(Quiz quiz, int id)
+        {
+            int removed = quiz.QuizQuestions.RemoveAll(x => x.QuestionID == id);
+            if (removed > 0)
+            {
+                return "Question Removed.";
+            }
+            else
+            {
+                return "ID not found.";
             }
         }
 

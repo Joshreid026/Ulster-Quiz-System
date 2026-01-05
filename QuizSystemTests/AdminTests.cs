@@ -18,6 +18,7 @@ public class AdminTests
     private List<Student> students;
     private List<Category> categories;
     private List<Quiz> quizzes;
+    private List<Question> questions;
 
     [TestInitialize]
     public void Setup()
@@ -34,6 +35,9 @@ public class AdminTests
 
         Quiz.ResetQuizNextIDCounter();
         quizzes = new List<Quiz>();
+
+        Question.ResetQuestionNextIDCounter();
+        questions = new List<Question>();
     }
 
     // ==========================================
@@ -290,6 +294,81 @@ public class AdminTests
         // Assert
         Assert.AreEqual(1, quizzes[0].QuizQuestions.Count, "AddQuestionToQuiz did not increase list size.");
         Assert.AreEqual("What does OOP stand for?", quizzes[0].QuizQuestions[0].QuestionText, "AddQuestionToQuiz did not add correct question(s).");
+    }
+
+    [TestMethod]
+    public void RemoveQuestionFromQuiz_ShouldRemoveQuestion_WhenIDExists()
+    {
+        // Arrange
+        categories.Add(new Category("Programming", "Concepts of object-oriented programming and coding principles"));
+        questions.AddRange(new[]
+        {
+            new Question("What does OOP stand for? ", new List<string>{"Object-Oriented Programming", "Operational Output Processing", "Open Order Protocol", "Overloaded Operator Procedure"}, "Object-Oriented Programming", "Easy"),
+            new Question("Which of the following is NOT a core principle of OOP?", new List<string>{"Encapsulation", "Polymorphism", "Abstraction", "Compilation"}, "Compilation", "Easy"),
+        });
+        quizzes.Add(new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
+        quizzes[0].QuizQuestions = questions;
+
+        int questionIDToRemove = quizzes[0].QuizQuestions[0].QuestionID;
+        string expectedMethodOutput = "Question Removed.";
+
+        // Act
+        string actualMethodOutput = Admin.RemoveQuestionFromQuiz(quizzes[0], questionIDToRemove);
+
+        // Assert
+        Assert.AreEqual(1, quizzes[0].QuizQuestions.Count, "RemoveQuestionFromQuiz failed to remove the question when ID existed.");
+        Assert.AreEqual("Which of the following is NOT a core principle of OOP?", quizzes[0].QuizQuestions[0].QuestionText, "RemoveQuestionFromQuiz removed the wrong question.");
+        Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveQuestionFromQuiz does not output the expected string.");
+    }
+
+    [TestMethod]
+    public void RemoveQuestionFromQuiz_ShouldReturnMessage_WhenIDDoesNotExist()
+    {
+        // Arrange
+        categories.Add(new Category("Programming", "Concepts of object-oriented programming and coding principles"));
+        questions.AddRange(new[]
+        {
+            new Question("What does OOP stand for? ", new List<string>{"Object-Oriented Programming", "Operational Output Processing", "Open Order Protocol", "Overloaded Operator Procedure"}, "Object-Oriented Programming", "Easy"),
+            new Question("Which of the following is NOT a core principle of OOP?", new List<string>{"Encapsulation", "Polymorphism", "Abstraction", "Compilation"}, "Compilation", "Easy"),
+        });
+        quizzes.Add(new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
+        quizzes[0].QuizQuestions = questions;
+
+        int invalidId = 999;
+        string expectedMethodOutput = "ID not found.";
+
+        // Act
+        string actualMethodOutput = Admin.RemoveQuestionFromQuiz(quizzes[0], invalidId);
+
+        // Assert
+        Assert.AreEqual(2, quizzes[0].QuizQuestions.Count, "RemoveQuestionFromQuiz removed a category when ID doesn't exist.");
+        Assert.AreEqual("What does OOP stand for? ", quizzes[0].QuizQuestions[0].QuestionText, "RemoveQuestionFromQuiz removed the wrong question.");
+        Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveQuestionFromQuiz does not output the expected string.");
+    }
+
+    [TestMethod]
+    public void RemoveQuestionFromQuiz_RemovesOnlyMatchingID()
+    {
+        // Arrange
+        categories.Add(new Category("Programming", "Concepts of object-oriented programming and coding principles"));
+        questions.AddRange(new[]
+        {
+            new Question("What does OOP stand for?", new List<string>{"Object-Oriented Programming", "Operational Output Processing", "Open Order Protocol", "Overloaded Operator Procedure"}, "Object-Oriented Programming", "Easy"),
+            new Question("Which of the following is NOT a core principle of OOP?", new List<string>{"Encapsulation", "Polymorphism", "Abstraction", "Compilation"}, "Compilation", "Easy"),
+        });
+        quizzes.Add(new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
+        quizzes[0].QuizQuestions = questions;
+
+        int questionIDToRemove = quizzes[0].QuizQuestions[0].QuestionID;
+        string expectedMethodOutput = "Question Removed.";
+
+        // Act
+        string actualMethodOutput = Admin.RemoveQuestionFromQuiz(quizzes[0], questionIDToRemove);
+
+        // Assert
+        Assert.AreEqual(1, quizzes[0].QuizQuestions.Count, "RemoveQuestionFromQuiz failed to remove the question when ID existed.");
+        Assert.AreEqual("Which of the following is NOT a core principle of OOP?", quizzes[0].QuizQuestions[0].QuestionText, "RemoveQuestionFromQuiz removed the wrong question.");
+        Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveQuestionFromQuiz does not output the expected string.");
     }
 
     [TestMethod]
