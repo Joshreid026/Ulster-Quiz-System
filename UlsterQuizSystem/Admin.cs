@@ -29,9 +29,44 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
+        // Entry point for Admin Uenu
+        // ==========================================
+        public void DisplayAdminDashboard(QuizSystemData systemData, Admin admin)
+        {
+            LoginDate = DateTime.Now;
+            bool active = true;
+
+            while (active)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- ADMIN DASHBOARD ( logged in as: {Username} ) ---");
+                Console.WriteLine($"Last Login: {LoginDate}");
+                Console.WriteLine("1. Manage Quizzes & Questions");
+                Console.WriteLine("2. Manage Users");
+                Console.WriteLine("3. Manage Categories");
+                Console.WriteLine("4. Reports");
+                Console.WriteLine("5. Save Quizzes to CSV");
+                Console.WriteLine("6. Logout");
+                Console.Write("Select: ");
+
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1": ManageQuizzesAndQuestions(systemData.Quizzes, systemData.Categories); break;
+                    case "2": ManageUsers(systemData.Students, systemData.Admins); break;
+                    case "3": ManageCategories(systemData.Categories, systemData.Quizzes); break;
+                    case "4": ViewSystemDataMenu(systemData.Quizzes, systemData.Categories, systemData.Students, systemData.Admins); break;
+                    case "5": SaveToCSV(systemData.Quizzes); break;
+                    case "6": Logout(); active = false; break;
+                    default: Console.WriteLine("Invalid selection."); break;
+                }
+            }
+        }
+
+        // ==========================================
         // Manage Users Methods
         // ==========================================
-        public void ManageUsers(List<Student> students, List<Admin> admins)
+        private void ManageUsers(List<Student> students, List<Admin> admins)
         {
             Console.Clear();
             Console.WriteLine("--- Manage Users ---");
@@ -137,7 +172,7 @@ namespace UlsterQuizSystem
         // ==========================================
         // Manage Quizzes and Questions Methods
         // ==========================================
-        public void ManageQuizzesAndQuestions(List<Quiz> quizzes, List<Category> categories)
+        private void ManageQuizzesAndQuestions(List<Quiz> quizzes, List<Category> categories)
         {
             Console.Clear();
             Console.WriteLine("--- Manage Quizzes & Questions ---");
@@ -163,7 +198,7 @@ namespace UlsterQuizSystem
             }
         }
 
-        public void CreateQuiz(List<Quiz> quizzes, List<Category> categories)
+        private void CreateQuiz(List<Quiz> quizzes, List<Category> categories)
         {
             Console.WriteLine("\n--- Create New Quiz ---");
             if (categories.Count == 0)
@@ -200,7 +235,7 @@ namespace UlsterQuizSystem
             Console.ReadKey();
         }
 
-        public void RemoveQuiz(List<Quiz> quizzes)
+        private void RemoveQuiz(List<Quiz> quizzes)
         {
             Console.WriteLine("\n--- Remove Quiz ---");
             foreach (var q in quizzes) Console.WriteLine($"ID: {q.QuizID} | Title: {q.QuizTitle}");
@@ -220,7 +255,7 @@ namespace UlsterQuizSystem
             Console.ReadKey();
         }
 
-        public void ManageQuestionsInQuiz(List<Quiz> quizzes)
+        private void ManageQuestionsInQuiz(List<Quiz> quizzes)
         {
             if (quizzes.Count == 0)
             {
@@ -255,7 +290,7 @@ namespace UlsterQuizSystem
             Console.ReadKey();
         }
 
-        public void AddQuestionToQuiz(Quiz quiz)
+        private void AddQuestionToQuiz(Quiz quiz)
         {
             Console.Write("\nQuestion Text: ");
             string text = Console.ReadLine();
@@ -272,7 +307,7 @@ namespace UlsterQuizSystem
             Console.WriteLine("Question added.");
         }
 
-        public void UpdateQuestionInQuiz(Quiz quiz)
+        private void UpdateQuestionInQuiz(Quiz quiz)
         {
             if (quiz.QuizQuestions.Count == 0) { Console.WriteLine("No questions to update."); return; }
 
@@ -316,7 +351,7 @@ namespace UlsterQuizSystem
             }
         }
 
-        public void RemoveQuestionFromQuiz(Quiz quiz)
+        private void RemoveQuestionFromQuiz(Quiz quiz)
         {
             foreach (var q in quiz.QuizQuestions) Console.WriteLine($"ID: {q.QuestionID} - {q.QuestionText}");
             Console.Write("Enter ID to remove: ");
@@ -331,7 +366,7 @@ namespace UlsterQuizSystem
         // ==========================================
         // Manage Categories Methods
         // ==========================================
-        public void ManageCategories(List<Category> categories, List<Quiz> quizzes)
+        private void ManageCategories(List<Category> categories, List<Quiz> quizzes)
         {
             Console.Clear();
             Console.WriteLine("--- Manage Categories ---");
@@ -368,7 +403,7 @@ namespace UlsterQuizSystem
         // ==========================================
         // Reports for displaying all Data Methods
         // ==========================================
-        public void ViewSystemDataMenu(List<Quiz> quizzes, List<Category> categories, List<Student> students, List<Admin> admins)
+        private void ViewSystemDataMenu(List<Quiz> quizzes, List<Category> categories, List<Student> students, List<Admin> admins)
         {
             Console.Clear();
             Console.WriteLine("--- System Reports ---");
@@ -389,7 +424,7 @@ namespace UlsterQuizSystem
             Console.ReadKey();
         }
 
-        public void ViewAllQuestions(List<Quiz> quizzes)
+        private void ViewAllQuestions(List<Quiz> quizzes)
         {
             Console.WriteLine("\n--- Master Question List ---");
             foreach (var q in quizzes)
@@ -405,7 +440,7 @@ namespace UlsterQuizSystem
             }
         }
 
-        public void ViewAllUsers(List<Student> students, List<Admin> admins)
+        private void ViewAllUsers(List<Student> students, List<Admin> admins)
         {
             if (admins.Any())
             {
@@ -417,7 +452,7 @@ namespace UlsterQuizSystem
                 Console.WriteLine($"ID: {s.ID} | User: {s.Username} | Status: {s.Status} | Email: {s.Email}");
         }
 
-        public void ViewAllQuizzes(List<Quiz> quizzes)
+        private void ViewAllQuizzes(List<Quiz> quizzes)
         {
             Console.WriteLine("\n--- All Quizzes ---");
             foreach (var q in quizzes)
@@ -427,7 +462,7 @@ namespace UlsterQuizSystem
             }
         }
 
-        public void ViewAllCategories(List<Category> categories)
+        private void ViewAllCategories(List<Category> categories)
         {
             Console.WriteLine("\n--- All Categories ---");
             foreach (var c in categories)
@@ -437,7 +472,7 @@ namespace UlsterQuizSystem
         // ==========================================
         // Export Quizzes and Questions to CSV Method
         // ==========================================
-        public void SaveToCSV(List<Quiz> quizzes)
+        private void SaveToCSV(List<Quiz> quizzes)
         {
             try
             {

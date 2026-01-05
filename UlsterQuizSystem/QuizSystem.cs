@@ -56,7 +56,7 @@ namespace UlsterQuizSystem
 
             if (admin != null)
             {
-                DisplayAdminDashboard(admin);
+                admin.DisplayAdminDashboard(systemData, admin);
             }
             else
             {
@@ -78,7 +78,7 @@ namespace UlsterQuizSystem
             {
                 if (student.Status.ToLower() == "active")
                 {
-                    DisplayStudentDashboard(student);
+                    student.DisplayStudentDashboard(systemData, student);
                 }
                 else
                 {
@@ -90,55 +90,6 @@ namespace UlsterQuizSystem
             {
                 Console.WriteLine("User not found.");
                 Console.ReadKey();
-            }
-        }
-
-        private void DisplayAdminDashboard(Admin admin)
-        {
-            admin.LoginDate = DateTime.Now;
-            bool active = true;
-
-            while (active)
-            {
-                Console.Clear();
-                Console.WriteLine($"--- ADMIN DASHBOARD ( logged in as: {admin.Username} ) ---");
-                Console.WriteLine($"Last Login: {admin.LoginDate}");
-                Console.WriteLine("1. Manage Quizzes & Questions");
-                Console.WriteLine("2. Manage Users");
-                Console.WriteLine("3. Manage Categories");
-                Console.WriteLine("4. Reports");
-                Console.WriteLine("5. Save Quizzes to CSV");
-                Console.WriteLine("6. Logout");
-                Console.Write("Select: ");
-
-                string choice = Console.ReadLine();
-                switch (choice)
-                {
-                    case "1": admin.ManageQuizzesAndQuestions(systemData.Quizzes, systemData.Categories); break;
-                    case "2": admin.ManageUsers(systemData.Students, systemData.Admins); break;
-                    case "3": admin.ManageCategories(systemData.Categories, systemData.Quizzes); break;
-                    case "4": admin.ViewSystemDataMenu(systemData.Quizzes, systemData.Categories, systemData.Students, systemData.Admins); break;
-                    case "5": admin.SaveToCSV(systemData.Quizzes); break;
-                    case "6": admin.Logout(); active = false; break;
-                    default: Console.WriteLine("Invalid selection."); break;
-                }
-            }
-        }
-
-        public void DisplayStudentDashboard(Student student)
-        {
-            bool active = true;
-            while (active)
-            {
-                Console.Clear();
-                Console.WriteLine($"--- STUDENT MENU ( Logged in as: {student.Username} ) ---");
-                Console.WriteLine("1. Play Quiz (Filter by Category)");
-                Console.WriteLine("2. Logout");
-                Console.Write("Select: ");
-
-                string choice = Console.ReadLine();
-                if (choice == "1") student.FilterAndPlay(systemData.Quizzes, systemData.Categories);
-                else if (choice == "2") { student.Logout(); active = false; }
             }
         }
 

@@ -29,9 +29,29 @@ namespace UlsterQuizSystem
         }
 
         // ==========================================
+        // Entry point for Student Menu
+        // ==========================================
+        public void DisplayStudentDashboard(QuizSystemData systemData, Student student)
+        {
+            bool active = true;
+            while (active)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- STUDENT MENU ( Logged in as: {student.Username} ) ---");
+                Console.WriteLine("1. Play Quiz (Filter by Category)");
+                Console.WriteLine("2. Logout");
+                Console.Write("Select: ");
+
+                string choice = Console.ReadLine();
+                if (choice == "1") student.FilterAndPlay(systemData.Quizzes, systemData.Categories);
+                else if (choice == "2") { student.Logout(); active = false; }
+            }
+        }
+
+        // ==========================================
         // Methods
         // ==========================================
-        public void FilterAndPlay(List<Quiz> quizzes, List<Category> categories)
+        private void FilterAndPlay(List<Quiz> quizzes, List<Category> categories)
         {
             Console.Clear();
             Console.WriteLine("--- Select Category ---");

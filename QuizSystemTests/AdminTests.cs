@@ -134,4 +134,30 @@ public class AdminTests
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void ManageUser_AddUserShouldAddUser()
+    {
+        // Arrange
+        string adminUsername = "Johned";
+        string adminPassword = "Doed";
+        string adminEmail = "johndoe05@outlook.co.uk";
+        UserRole adminRole = UserRole.Student;
+        DateTime adminLogInDate = DateTime.MaxValue;
+
+        // Act
+        admins.Add(new Admin());
+
+        admins[0].Username = adminUsername;
+        admins[0].Password = adminPassword;
+        admins[0].Email = adminEmail;
+        admins[0].Role = adminRole;
+        admins[0].LoginDate = adminLogInDate;
+
+        // Assert
+        Assert.AreEqual(adminUsername, admins[0].Username, "Username was not set correctly.");
+        Assert.AreEqual(adminPassword, admins[0].Password, "Password was not set correctly.");
+        Assert.AreEqual(adminEmail, admins[0].Email, "Email was not set correctly.");
+        Assert.AreEqual(adminRole, admins[0].Role, "Role was not set correctly.");
+        Assert.AreEqual(adminLogInDate, admins[0].LoginDate, "LoginDate was not set correctly.");
+    }
 }
