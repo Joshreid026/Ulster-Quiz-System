@@ -326,7 +326,7 @@ namespace UlsterQuizSystem
                     Console.Write("Select: ");
                     string subChoice = Console.ReadLine();
 
-                    if (subChoice == "1") AddQuestionToQuiz(quiz);
+                    if (subChoice == "1") AddQuestionToQuizUI(quiz);
                     else if (subChoice == "2") UpdateQuestionInQuiz(quiz);
                     else if (subChoice == "3") RemoveQuestionFromQuiz(quiz);
                 }
@@ -336,19 +336,22 @@ namespace UlsterQuizSystem
             Console.ReadKey();
         }
 
-        private void AddQuestionToQuiz(Quiz quiz)
+        private void AddQuestionToQuizUI(Quiz quizzes)
         {
-            Console.Write("\nQuestion Text: ");
-            string text = Console.ReadLine();
-            Console.Write("Correct Answer: ");
-            string correct = Console.ReadLine();
-            Console.WriteLine("Enter Difficulty Level (Easy/Medium/Hard): ");
-            string difficulty = Console.ReadLine();
+            Console.Write("\nQuestion Text: "); string text = Console.ReadLine();
+            Console.Write("Correct Answer: "); string correct = Console.ReadLine();
+            Console.WriteLine("Enter Difficulty Level (Easy/Medium/Hard): "); string difficulty = Console.ReadLine();
+            Console.WriteLine("How many questions do you wish to add to the Quiz?"); int questionAmount = Convert.ToInt32(Console.ReadLine());
 
             List<string> options = new List<string>();
-            Console.WriteLine("Enter 4 Options:");
-            for (int i = 1; i <= 4; i++) { Console.Write($"{i}: "); options.Add(Console.ReadLine()); }
+            Console.WriteLine($"Enter {questionAmount} Options:");
+            for (int i = 1; i <= questionAmount; i++) { Console.Write($"{i}: "); options.Add(Console.ReadLine()); }
 
+            AddQuestionToQuiz(quizzes, text, options, correct, difficulty);
+        }
+
+        public static void AddQuestionToQuiz(Quiz quiz, string text, List<string> options, string correct, string difficulty)
+        {
             quiz.QuizQuestions.Add(new Question(text, options, correct, difficulty));
             Console.WriteLine("Question added.");
         }

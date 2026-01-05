@@ -17,6 +17,7 @@ public class AdminTests
     private List<Admin> admins;
     private List<Student> students;
     private List<Category> categories;
+    private List<Quiz> quizzes;
 
     [TestInitialize]
     public void Setup()
@@ -30,6 +31,9 @@ public class AdminTests
 
         Category.ResetCategoryNextIDCounter();
         categories = new List<Category>();
+
+        Quiz.ResetQuizNextIDCounter();
+        quizzes = new List<Quiz>();
     }
 
     // ==========================================
@@ -270,6 +274,22 @@ public class AdminTests
         // Assert
         Assert.AreEqual(1, students.Count, "RemoveStudent removed a student when ID doesn't exist.");
         Assert.AreEqual(expectedMethodOutput, actualMethodOutput, "RemoveStudent does not output the expected string.");
+    }
+
+    [TestMethod]
+    public void AddQuestionToQuiz_ShouldAddQuestionsCorrectly()
+    {
+        // Arrange
+        categories.Add(new Category("Programming", "Concepts of object-oriented programming and coding principles"));
+        quizzes.Add(new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
+        List<string> options = new List<string> { "Object-Oriented Programming", "Operational Output Processing", "Open Order Protocol", "Overloaded Operator Procedure" };
+
+        // Act
+        Admin.AddQuestionToQuiz(quizzes[0], "What does OOP stand for?", options, "A", "Easy");
+
+        // Assert
+        Assert.AreEqual(1, quizzes[0].QuizQuestions.Count, "AddQuestionToQuiz did not increase list size.");
+        Assert.AreEqual("What does OOP stand for?", quizzes[0].QuizQuestions[0].QuestionText, "AddQuestionToQuiz did not add correct question(s).");
     }
 
     [TestMethod]
