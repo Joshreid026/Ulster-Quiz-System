@@ -8,20 +8,22 @@ namespace UlsterQuizSystem
 {
     public class Admin : User
     {
+        // ==========================================
+        // Fields, Properties, Get/Sets, Constructors
+        // ==========================================
         public DateTime LoginDate { get; set; }
 
         // Default Constructor
         public Admin() 
             : base()
         {
-            ID = 1;
             Role = UserRole.Admin;
             LoginDate = DateTime.MinValue;
         }
 
         // Parameterized Constructor
-        public Admin(int id, string username, string password, string email)
-            : base(id, username, password, email, UserRole.Admin)
+        public Admin(string username, string password, string email)
+            : base(username, password, email, UserRole.Admin)
         {
             LoginDate = DateTime.MinValue;
         }
@@ -95,8 +97,7 @@ namespace UlsterQuizSystem
                         Console.Write("Password: "); string pass = Console.ReadLine();
                         Console.Write("Email Address: "); string email = Console.ReadLine();
 
-                        int id = admins.Any() ? admins.Max(s => s.ID) + 1 : 1;
-                        admins.Add(new Admin(id, username, pass, email));
+                        admins.Add(new Admin(username, pass, email));
                         Console.WriteLine($"Admin '{username}' added successfully.");
                         Console.ReadKey();
                     }
@@ -106,8 +107,7 @@ namespace UlsterQuizSystem
                         Console.Write("Password: "); string pass = Console.ReadLine();
                         Console.Write("Email Address: "); string email = Console.ReadLine();
 
-                        int id = students.Any() ? students.Max(s => s.ID) + 1 : 100;
-                        students.Add(new Student(id, username, pass, email, "active"));
+                        students.Add(new Student(username, pass, email, "active"));
                         Console.WriteLine($"Student '{username}' added successfully.");
                         Console.ReadKey();
                     }
@@ -230,8 +230,7 @@ namespace UlsterQuizSystem
             Console.Write("Enter Quiz Description: ");
             string desc = Console.ReadLine();
 
-            int newId = quizzes.Any() ? quizzes.Max(q => q.QuizID) + 1 : 1;
-            Quiz newQuiz = new Quiz(newId, title, desc, selectedCat, DateTime.Now);
+            Quiz newQuiz = new Quiz(title, desc, selectedCat, DateTime.Now);
             quizzes.Add(newQuiz);
 
             Console.WriteLine($"Quiz '{title}' created successfully.");
@@ -306,8 +305,7 @@ namespace UlsterQuizSystem
             Console.WriteLine("Enter 4 Options:");
             for (int i = 1; i <= 4; i++) { Console.Write($"{i}: "); options.Add(Console.ReadLine()); }
 
-            int newId = quiz.QuizQuestions.Any() ? quiz.QuizQuestions.Max(q => q.QuestionID) + 1 : 1;
-            quiz.QuizQuestions.Add(new Question(newId, text, options, correct, difficulty));
+            quiz.QuizQuestions.Add(new Question(text, options, correct, difficulty));
             Console.WriteLine("Question added.");
         }
 
@@ -383,8 +381,7 @@ namespace UlsterQuizSystem
             {
                 Console.Write("Name: "); string name = Console.ReadLine();
                 Console.Write("Desc: "); string desc = Console.ReadLine();
-                int id = categories.Any() ? categories.Max(c => c.CategoryID) + 1 : 1;
-                categories.Add(new Category(id, name, desc));
+                categories.Add(new Category(name, desc));
                 Console.WriteLine("Category Added.");
             }
             else if (choice == "2")

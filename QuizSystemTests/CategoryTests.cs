@@ -9,14 +9,15 @@ public class CategoryTests
     // ==========================================
     // Test Initialization + Fields
     // ==========================================
-    private List<Category> _category;
+    private List<Category> category;
 
     [TestInitialize]
     public void Setup()
     {
         // Required Sample Data
-        _category = new List<Category>();
-        _category.Add(new Category());
+        Category.ResetCategoryNextIDCounter();
+
+        category = new List<Category>();
     }
 
     // ==========================================
@@ -26,14 +27,17 @@ public class CategoryTests
     public void CategoryDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int categoryID = 0;
+        int categoryID = 1;
         string categoryName = "Default";
         string categoryDescription = "Default Description";
 
+        // Act
+        category.Add(new Category());
+
         // Assert
-        Assert.AreEqual(categoryID, _category[0].CategoryID, "CategoryID was not initialized correctly.");
-        Assert.AreEqual(categoryName, _category[0].CategoryName, "CategoryName was not initialized correctly.");
-        Assert.AreEqual(categoryDescription, _category[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
+        Assert.AreEqual(categoryID, category[0].CategoryID, "CategoryID was not initialized correctly.");
+        Assert.AreEqual(categoryName, category[0].CategoryName, "CategoryName was not initialized correctly.");
+        Assert.AreEqual(categoryDescription, category[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
     }
 
     [TestMethod]
@@ -45,12 +49,12 @@ public class CategoryTests
         string categoryDescription = "Default Description";
 
         // Act
-        _category.Add(new Category(categoryID, categoryName, categoryDescription));
+        category.Add(new Category(categoryName, categoryDescription));
 
         // Assert
-        Assert.AreEqual(categoryID, _category[1].CategoryID, "CategoryID was not initialized correctly.");
-        Assert.AreEqual(categoryName, _category[1].CategoryName, "CategoryName was not initialized correctly.");
-        Assert.AreEqual(categoryDescription, _category[1].CategoryDescription, "CategoryDescription was not initialized correctly.");
+        Assert.AreEqual(categoryID, category[0].CategoryID, "CategoryID was not initialized correctly.");
+        Assert.AreEqual(categoryName, category[0].CategoryName, "CategoryName was not initialized correctly.");
+        Assert.AreEqual(categoryDescription, category[0].CategoryDescription, "CategoryDescription was not initialized correctly.");
     }
 
     // ==========================================
@@ -65,10 +69,10 @@ public class CategoryTests
         string categoryDescription = "Default Description";
 
         // Act
-        _category.Add(new Category(categoryID, categoryName, categoryDescription));
+        category.Add(new Category(categoryName, categoryDescription));
 
         // Assert
-        Assert.AreEqual(categoryID, _category[1].CategoryID, "CategoryID was not set correctly.");
+        Assert.AreEqual(categoryID, category[0].CategoryID, "CategoryID was not set correctly.");
     }
 
     [TestMethod]
@@ -92,12 +96,14 @@ public class CategoryTests
         string categoryDescription = "Defaulted Description";
 
         // Act
-        _category[0].CategoryName = categoryName;
-        _category[0].CategoryDescription = categoryDescription;
+        category.Add(new Category());
+
+        category[0].CategoryName = categoryName;
+        category[0].CategoryDescription = categoryDescription;
 
         // Assert
-        Assert.AreEqual(categoryName, _category[0].CategoryName, "CategoryName was not set correctly.");
-        Assert.AreEqual(categoryDescription, _category[0].CategoryDescription, "CategoryDescription was not set correctly.");
+        Assert.AreEqual(categoryName, category[0].CategoryName, "CategoryName was not set correctly.");
+        Assert.AreEqual(categoryDescription, category[0].CategoryDescription, "CategoryDescription was not set correctly.");
     }
 
     // ==========================================

@@ -68,10 +68,10 @@ public class QuizSystemDataTests
     public void QuizSystemDataParameterisedConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        admins.Add(new Admin(1, "admin", "admin123", "admin@ulster.ac.uk"));
-        students.Add(new Student(101, "student", "student123", "student@ulster.ac.uk", "active"));
-        categories.Add(new Category(1, "Programming", "Concepts of object-oriented programming and coding principles"));
-        quizzes.Add(new Quiz(1, "OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
+        admins.Add(new Admin("admin", "admin123", "admin@ulster.ac.uk"));
+        students.Add(new Student("student", "student123", "student@ulster.ac.uk", "active"));
+        categories.Add(new Category("Programming", "Concepts of object-oriented programming and coding principles"));
+        quizzes.Add(new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
 
         // Act
         systemData.Add(new QuizSystemData(admins, students, quizzes, categories));
@@ -90,10 +90,10 @@ public class QuizSystemDataTests
     public void QuizSystemDataProperties_ShouldSetCorrectly()
     {
         // Arrange
-        admins.Add(new Admin(1, "admin", "admin123", "admin@ulster.ac.uk"));
-        students.Add(new Student(101, "student", "student123", "student@ulster.ac.uk", "active"));
-        quizzes.Add(new Quiz(1, "OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
-        categories.Add(new Category(1, "Programming", "Concepts of object-oriented programming and coding principles"));
+        admins.Add(new Admin("admin", "admin123", "admin@ulster.ac.uk"));
+        students.Add(new Student("student", "student123", "student@ulster.ac.uk", "active"));
+        quizzes.Add(new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
+        categories.Add(new Category("Programming", "Concepts of object-oriented programming and coding principles"));
 
         // Act
         systemData.Add(new QuizSystemData(admins, students, quizzes, categories));

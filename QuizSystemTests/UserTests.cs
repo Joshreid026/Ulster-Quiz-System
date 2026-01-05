@@ -11,14 +11,14 @@ public class UserTests
     // ==========================================
     // Test Initialization + Fields
     // ==========================================
-    private List<TestUser> _users;
+    private List<TestUser> users;
 
     [TestInitialize]
     public void Setup()
     {
         // Required Sample Data
-        _users = new List<TestUser>();
-        _users.Add(new TestUser());
+        TestUser.ResetNextIDCounter();
+        users = new List<TestUser>();
     }
 
     // ==========================================
@@ -28,18 +28,21 @@ public class UserTests
     public void UserDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        int userID = 0;
+        int userID = 1;
         string userUsername = "default";
         string userPassword = "password";
         string userEmail = "email@mail.com";
         UserRole userRole = UserRole.User;
 
+        // Act
+        users.Add(new TestUser());
+
         // Assert
-        Assert.AreEqual(userID, _users[0].ID, "ID was not initialized correctly.");
-        Assert.AreEqual(userUsername, _users[0].Username, "Username was not initialized correctly.");
-        Assert.AreEqual(userPassword, _users[0].Password, "Password was not initialized correctly.");
-        Assert.AreEqual(userEmail, _users[0].Email, "Email was not initialized correctly.");
-        Assert.AreEqual(userRole, _users[0].Role, "Role was not initialized correctly.");
+        Assert.AreEqual(userID, users[0].ID, "ID was not initialized correctly.");
+        Assert.AreEqual(userUsername, users[0].Username, "Username was not initialized correctly.");
+        Assert.AreEqual(userPassword, users[0].Password, "Password was not initialized correctly.");
+        Assert.AreEqual(userEmail, users[0].Email, "Email was not initialized correctly.");
+        Assert.AreEqual(userRole, users[0].Role, "Role was not initialized correctly.");
     }
 
     [TestMethod]
@@ -53,14 +56,14 @@ public class UserTests
         UserRole userRole = UserRole.User;
 
         // Act
-        _users.Add(new TestUser(userID, userUsername, userPassword, userEmail));
+        users.Add(new TestUser(userUsername, userPassword, userEmail));
 
         // Assert
-        Assert.AreEqual(userID, _users[1].ID, "ID was not initialized correctly.");
-        Assert.AreEqual(userUsername, _users[1].Username, "Username was not initialized correctly.");
-        Assert.AreEqual(userPassword, _users[1].Password, "Password was not initialized correctly.");
-        Assert.AreEqual(userEmail, _users[1].Email, "Email was not initialized correctly.");
-        Assert.AreEqual(userRole, _users[1].Role, "Role was not initialized correctly.");
+        Assert.AreEqual(userID, users[0].ID, "ID was not initialized correctly.");
+        Assert.AreEqual(userUsername, users[0].Username, "Username was not initialized correctly.");
+        Assert.AreEqual(userPassword, users[0].Password, "Password was not initialized correctly.");
+        Assert.AreEqual(userEmail, users[0].Email, "Email was not initialized correctly.");
+        Assert.AreEqual(userRole, users[0].Role, "Role was not initialized correctly.");
     }
 
     // ==========================================
@@ -76,10 +79,10 @@ public class UserTests
         string userEmail = "johndoe05@outlook.com";
 
         // Act
-        _users.Add(new TestUser(userID, userUsername, userPassword, userEmail));
+        users.Add(new TestUser(userUsername, userPassword, userEmail));
 
         // Assert
-        Assert.AreEqual(userID, _users[1].ID, "UserID was not set correctly.");
+        Assert.AreEqual(userID, users[0].ID, "UserID was not set correctly.");
     }
 
     [TestMethod]
@@ -105,16 +108,18 @@ public class UserTests
         UserRole userRole = UserRole.User;
 
         // Act
-        _users[0].Username = userUsername;
-        _users[0].Password = userPassword;
-        _users[0].Email = userEmail;
-        _users[0].Role = userRole;
+        users.Add(new TestUser());
+
+        users[0].Username = userUsername;
+        users[0].Password = userPassword;
+        users[0].Email = userEmail;
+        users[0].Role = userRole;
 
         // Assert
-        Assert.AreEqual(userUsername, _users[0].Username, "Username was not set correctly.");
-        Assert.AreEqual(userPassword, _users[0].Password, "Password was not set correctly.");
-        Assert.AreEqual(userEmail, _users[0].Email, "Email was not set correctly.");
-        Assert.AreEqual(userRole, _users[0].Role, "Role was not set correctly.");
+        Assert.AreEqual(userUsername, users[0].Username, "Username was not set correctly.");
+        Assert.AreEqual(userPassword, users[0].Password, "Password was not set correctly.");
+        Assert.AreEqual(userEmail, users[0].Email, "Email was not set correctly.");
+        Assert.AreEqual(userRole, users[0].Role, "Role was not set correctly.");
     }
 
     // ==========================================
@@ -125,6 +130,7 @@ public class UserTests
     {
         // Arrange
         string expectedOutput = "\nUser default logged out.";
+        users.Add(new TestUser());
 
         // Redirects Console Output to a StringWriter
         using (var stringWriter = new StringWriter())
@@ -132,7 +138,7 @@ public class UserTests
             Console.SetOut(stringWriter);
 
             // Act
-            _users[0].Logout();
+            users[0].Logout();
 
             // Assert
             string actualOutput = stringWriter.ToString().Trim();
@@ -144,10 +150,11 @@ public class UserTests
     public void ToStringReturnCorrectMessage()
     {
         // Arrange
-        string expectedReturnValue = "ID: 0 | User: default | Role: User";
+        string expectedReturnValue = "ID: 1 | User: default | Role: User";
+        users.Add(new TestUser());
 
         // Act
-        string actualReturnValue = _users[0].ToString();
+        string actualReturnValue = users[0].ToString();
 
         // Assert
         Assert.AreEqual(expectedReturnValue, actualReturnValue, "Expected return value did not match actual return value.");

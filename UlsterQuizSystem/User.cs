@@ -24,29 +24,38 @@ namespace UlsterQuizSystem
         public string Password { get; set; }
         public string Email { get; set; }
         public UserRole Role { get; set; }
+        protected static int nextID = 1;
 
         // Default Constructor
         public User()
         {
+            ID = nextID;
             Username = "default";
             Password = "password";
             Email = "email@mail.com";
             Role = UserRole.User;
+            nextID++;
         }
 
         // Parameterized Constructor
-        public User(int id, string username, string password, string email, UserRole role)
+        public User(string username, string password, string email, UserRole role)
         {
-            ID = id;
+            ID = nextID;
             Username = username;
             Password = password;
             Email = email;
             Role = role;
+            nextID++;
         }
 
         // ==========================================
         // Shared Behaviour for subclasses
         // ==========================================
+        public static void ResetNextIDCounter()
+        {
+            nextID = 1;
+        }
+
         public virtual void Logout()
         {
             Console.WriteLine($"\nUser {Username} logged out.");

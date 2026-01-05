@@ -8,20 +8,22 @@ namespace UlsterQuizSystem
 {
     public class Student : User
     {
+        // ==========================================
+        // Fields, Properties, Get/Sets, Constructors
+        // ==========================================
         public string Status { get; set; }
 
         // Default Constructor
         public Student() 
             : base()
         {
-            ID = 101;
             Role = UserRole.Student;
             Status = "active";
         }
 
         // Parameterized Constructor
-        public Student(int id, string username, string password, string email, string status)
-            : base(id, username, password, email, UserRole.Student)
+        public Student(string username, string password, string email, string status)
+            : base(username, password, email, UserRole.Student)
         {
             Status = status;
         }
