@@ -20,19 +20,16 @@ public class QuizSystemDataTests
     {
         //Required Sample Data
         systemData = new List<QuizSystemData>();
-        systemData.Add(new QuizSystemData());
+
+        Admin.ResetAdminNextIDCounter();
+        Student.ResetStudentNextIDCounter();
+        Quiz.ResetQuizNextIDCounter();
+        Category.ResetCategoryNextIDCounter();
 
         admins = new List<Admin>();
-        admins.Add(new Admin());
-
         students = new List<Student>();
-        students.Add(new Student());
-
         quizzes = new List<Quiz>();
-        quizzes.Add(new Quiz());
-
         categories = new List<Category>();
-        categories.Add(new Category());
     }
 
     // ==========================================
@@ -42,10 +39,7 @@ public class QuizSystemDataTests
     public void QuizSystemDataDefaultConstructor_ShouldInitialiseProperties()
     {
         // Arrange
-        List<Admin> quizSystemDataAdmins = new List<Admin>();
-        List<Student> quizSystemDataStudents = new List<Student>();
-        List<Quiz> quizSystemDataQuizzes = new List<Quiz>();
-        List<Category> quizSystemDataCategories = new List<Category>();
+        systemData.Add(new QuizSystemData());
 
         // Assert
         Assert.IsNotNull(systemData[0].Admins, "Admins should not be null.");
@@ -77,10 +71,10 @@ public class QuizSystemDataTests
         systemData.Add(new QuizSystemData(admins, students, quizzes, categories));
 
         // Assert
-        Assert.AreEqual(admins, systemData[1].Admins, "Admins was not initialized correctly.");
-        Assert.AreEqual(students, systemData[1].Students, "Students was not initialized correctly.");
-        Assert.AreEqual(quizzes, systemData[1].Quizzes, "Quizzes was not initialized correctly.");
-        Assert.AreEqual(categories, systemData[1].Categories, "Categories was not initialized correctly.");
+        Assert.AreEqual(admins, systemData[0].Admins, "Admins was not initialized correctly.");
+        Assert.AreEqual(students, systemData[0].Students, "Students was not initialized correctly.");
+        Assert.AreEqual(quizzes, systemData[0].Quizzes, "Quizzes was not initialized correctly.");
+        Assert.AreEqual(categories, systemData[0].Categories, "Categories was not initialized correctly.");
     }
 
     // ==========================================
@@ -90,6 +84,11 @@ public class QuizSystemDataTests
     public void QuizSystemDataProperties_ShouldSetCorrectly()
     {
         // Arrange
+        admins.Add(new Admin());
+        students.Add(new Student());
+        quizzes.Add(new Quiz());
+        categories.Add(new Category());
+
         admins.Add(new Admin("admin", "admin123", "admin@ulster.ac.uk"));
         students.Add(new Student("student", "student123", "student@ulster.ac.uk", "active"));
         quizzes.Add(new Quiz("OOP Fundamentals", "Covers basics of object-oriented programming.", categories[0], new DateTime(2025, 09, 01)));
@@ -99,10 +98,10 @@ public class QuizSystemDataTests
         systemData.Add(new QuizSystemData(admins, students, quizzes, categories));
 
         // Assert
-        Assert.AreEqual(admins, systemData[1].Admins, "Admins was not set correctly.");
-        Assert.AreEqual(students, systemData[1].Students, "Students was not set correctly.");
-        Assert.AreEqual(quizzes, systemData[1].Quizzes, "Quizzes was not set correctly.");
-        Assert.AreEqual(categories, systemData[1].Categories, "Categories was not set correctly.");
+        Assert.AreEqual(admins, systemData[0].Admins, "Admins was not set correctly.");
+        Assert.AreEqual(students, systemData[0].Students, "Students was not set correctly.");
+        Assert.AreEqual(quizzes, systemData[0].Quizzes, "Quizzes was not set correctly.");
+        Assert.AreEqual(categories, systemData[0].Categories, "Categories was not set correctly.");
     }
 
     [TestMethod]
@@ -113,7 +112,6 @@ public class QuizSystemDataTests
         PropertyInfo studentIDproperty = typeof(QuizSystemData).GetProperty("Students");
         PropertyInfo quizIDproperty = typeof(QuizSystemData).GetProperty("Quizzes");
         PropertyInfo categoryIDproperty = typeof(QuizSystemData).GetProperty("Categories");
-
 
         // Act
         MethodInfo adminIDSetter = adminIDProperty.SetMethod;
@@ -131,4 +129,49 @@ public class QuizSystemDataTests
     // ==========================================
     // Method Tests
     // ==========================================
+    [TestMethod]
+    public void LoadSampleData_ShouldAddDataToAllLists()
+    {
+        // Arrange
+        systemData.Add(new QuizSystemData());
+
+        // Act
+        systemData[0].LoadSampleData();
+
+        // Assert
+        Assert.IsTrue(systemData[0].Categories.Any(), "LoadSampleData did not add anything to systemData.Categories.");
+        Assert.IsTrue(systemData[0].Admins.Any(), "LoadSampleData did not add anything to systemData.Admins.");
+        Assert.IsTrue(systemData[0].Students.Any(), "LoadSampleData did not add anything to systemData.Students.");
+        Assert.IsTrue(systemData[0].Quizzes.Any(), "LoadSampleData did not add anything to systemData.Quizzes.");
+    }
+
+    [TestMethod]
+    public void LoadSampleData_ShouldAddExpectedNumberOfItems()
+    {
+        // Arrange
+        systemData.Add(new QuizSystemData());
+
+        // Act
+        systemData[0].LoadSampleData();
+
+        // Assert
+        Assert.AreEqual(7, systemData[0].Categories.Count, "LoadSampleData added more items to systemData.Categories than it should've.");
+        Assert.AreEqual(2, systemData[0].Admins.Count, "LoadSampleData added more items to systemData.Categories than it should've.");
+        Assert.AreEqual(2, systemData[0].Students.Count, "LoadSampleData added more items to systemData.Categories than it should've.");
+        Assert.AreEqual(7, systemData[0].Quizzes.Count, "LoadSampleData added more items to systemData.Categories than it should've.");
+    }
+
+    [TestMethod]
+    public void LoadSampleData_ShouldAssignQuestionsToFirstQuiz()
+    {
+        // Arrange
+        systemData.Add(new QuizSystemData());
+
+        // Act
+        systemData[0].LoadSampleData();
+
+        // Assert
+        Assert.IsNotNull(systemData[0].Quizzes[0].QuizQuestions);
+        Assert.AreEqual(10, systemData[0].Quizzes[0].QuizQuestions.Count);
+    }
 }
